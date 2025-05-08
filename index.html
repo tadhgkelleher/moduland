@@ -263,7 +263,7 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
 
-    <script>
+      <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwL0NKGu3AnUtkf4Z-GIMkeNnR1vulFq443ZRm5Fi6ZiRRDt45hgOzRXtVAenr51ph6/exec';
         const irelandCenter = [53.4129, -8.2439];
         const NOMINATIM_USER_AGENT = 'ModularIrelandWebsite/1.0 (Contact: info@example.com)'; // REPLACE with actual contact
@@ -282,8 +282,14 @@
             };
         }
 
+        // Helper function for escaping regex special characters
+        function escapeRegExp(string) {
+          return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+        }
+
         async function fetchNominatimSearch(query) {
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=IE&addressdetails=1&limit=5`;
+            // Prioritize Ireland, allow other countries if user is broad
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=IE&addressdetails=1&limit=5&dedupe=1`;
             const response = await fetch(url, { headers: { 'User-Agent': NOMINATIM_USER_AGENT } });
             if (!response.ok) throw new Error(`Nominatim search failed: ${response.statusText}`);
             return await response.json();
@@ -299,34 +305,51 @@
         function populateFormTextFieldsFromGeo(address, displayName, formElement) {
             const countyInput = formElement.querySelector('input[name="location"]');
             const detailInput = formElement.querySelector('input[name="location_detail"]');
+            // const searchInput = formElement.querySelector('input[name="location_search"]'); // Not needed here for populating
 
+            let foundCounty = address.county || address.state || address.state_district || '';
             if (countyInput) {
-                countyInput.value = address.county || address.state || '';
+                countyInput.value = foundCounty;
             }
+
             if (detailInput) {
-                let detailAddrParts = [];
-                if (address.road) detailAddrParts.push(address.road);
-                if (address.hamlet) detailAddrParts.push(address.hamlet);
-                else if (address.village) detailAddrParts.push(address.village);
-                else if (address.town) detailAddrParts.push(address.town);
-                else if (address.city) detailAddrParts.push(address.city);
-                if (address.postcode) detailAddrParts.push(address.postcode);
-                
-                let constructedDetail = detailAddrParts.join(', ');
-                if (constructedDetail) {
-                     detailInput.value = constructedDetail;
-                } else {
-                    let fallbackDisplay = displayName || "";
-                    if (address.county && fallbackDisplay.includes(address.county)) {
-                        fallbackDisplay = fallbackDisplay.replace(new RegExp(",?\\s*" + address.county + "\\b", 'gi'), '').trim();
-                        if (fallbackDisplay.endsWith(',')) fallbackDisplay = fallbackDisplay.slice(0, -1).trim();
-                    }
-                    if (fallbackDisplay.includes("Ireland")) {
-                         fallbackDisplay = fallbackDisplay.replace(/,?\s*Ireland\b/gi, '').trim();
-                         if (fallbackDisplay.endsWith(',')) fallbackDisplay = fallbackDisplay.slice(0, -1).trim();
-                    }
-                    detailInput.value = fallbackDisplay;
+                let displayDetail = displayName || "";
+
+                // 1. Remove country (e.g., ", Ireland") from the end
+                if (address.country) {
+                    const countryPatternEnd = new RegExp(",\\s*" + escapeRegExp(address.country) + "$", 'i');
+                    displayDetail = displayDetail.replace(countryPatternEnd, '').trim();
                 }
+                
+                // 2. Remove county if it's at the end of the string (and we have a county)
+                if (foundCounty) {
+                    const countyPatternEnd = new RegExp(",\\s*" + escapeRegExp(foundCounty) + "$", 'i');
+                    if (countyPatternEnd.test(displayDetail)) {
+                         displayDetail = displayDetail.replace(countyPatternEnd, '').trim();
+                    }
+                }
+                
+                // 3. Remove county if it's at the beginning and followed by a comma (less common for Nominatim display_name structure)
+                if (foundCounty) {
+                    const countyPatternStart = new RegExp("^" + escapeRegExp(foundCounty) + ",\\s*", 'i');
+                     if (countyPatternStart.test(displayDetail)) {
+                         displayDetail = displayDetail.replace(countyPatternStart, '').trim();
+                    }
+                }
+                
+                // If after stripping, displayDetail is empty, or it's just the postcode (which might already be in displayName)
+                // we want to ensure detailInput gets a sensible value.
+                // Often, the stripped displayName is good. If it becomes just the postcode, that's okay if the original displayName was e.g. "D01 F5P2, Dublin, Ireland"
+                // If the original displayName was like "Some Street, Some Town, D01 F5P2, Dublin, Ireland", then "Some Street, Some Town, D01 F5P2" is a good detail.
+
+                if (displayDetail === "" && displayName !== "") { // If stripping made it blank, revert to original displayName (minus country perhaps)
+                    displayDetail = displayName;
+                     if (address.country) {
+                        const countryPatternEnd = new RegExp(",\\s*" + escapeRegExp(address.country) + "$", 'i');
+                        displayDetail = displayDetail.replace(countryPatternEnd, '').trim();
+                    }
+                }
+                detailInput.value = displayDetail;
             }
         }
         
@@ -336,7 +359,7 @@
                 return;
             }
             if (!map) { 
-                map = L.map('map', { zoomControl: true }).setView(irelandCenter, 7); // Zoom control explicitly true
+                map = L.map('map', { zoomControl: true }).setView(irelandCenter, 7); 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 18,
@@ -424,15 +447,17 @@
                     .then(data => {
                         if (data && (data.address || data.display_name)) {
                             populateFormTextFieldsFromGeo(data.address || {}, data.display_name || "", currentFormElement);
+                             // Also update search input to reflect what was found by pin drop
+                            const searchInput = currentFormElement.querySelector('input[name="location_search"]');
+                            if(searchInput && data.display_name) searchInput.value = data.display_name;
                         } else {
                              console.warn("No address details found for this location via reverse geocoding.");
-                             // Clear fields if no meaningful data from reverse geocoding
                              populateFormTextFieldsFromGeo({}, "", currentFormElement); 
                         }
                     })
                     .catch(error => {
                         console.error("Reverse geocoding error:", error);
-                        populateFormTextFieldsFromGeo({}, "", currentFormElement); // Clear on error too
+                        populateFormTextFieldsFromGeo({}, "", currentFormElement); 
                     });
 
                 formMapMarker.on('dragend', function(event) {
@@ -442,6 +467,8 @@
                         .then(data => {
                             if (data && (data.address || data.display_name)) {
                                 populateFormTextFieldsFromGeo(data.address || {}, data.display_name || "", currentFormElement);
+                                const searchInput = currentFormElement.querySelector('input[name="location_search"]');
+                                if(searchInput && data.display_name) searchInput.value = data.display_name;
                             }
                         })
                         .catch(err => console.error("Reverse geocoding error on drag:", err));
@@ -489,7 +516,6 @@
                     placeMarkerAndUpdate(e.latlng, formMapInstance.getZoom(), false, formElement); 
                 });
                 
-                // Autocomplete setup
                 const searchInputId = formTypeInput.value === 'landowner' ? 'landowner-location-search' : 'buyer-location-search';
                 const searchInput = formElement.querySelector(`#${searchInputId}`);
                 const suggestionsContainerId = formTypeInput.value === 'landowner' ? 'landowner-autocomplete-suggestions' : 'buyer-autocomplete-suggestions';
@@ -497,8 +523,8 @@
 
                 if (searchInput && suggestionsContainer) {
                     searchInput.addEventListener('input', debounce(async (e) => {
-                        const query = e.target.value;
-                        if (query.length < 3) {
+                        const query = e.target.value.trim(); // Ensure query is trimmed
+                        if (query.length < 3) { // Minimum query length
                             suggestionsContainer.innerHTML = '';
                             suggestionsContainer.style.display = 'none';
                             return;
@@ -511,18 +537,16 @@
                             suggestionsContainer.innerHTML = '<div style="padding: 0.6rem 0.8rem; font-style: italic;">Error fetching suggestions.</div>';
                             suggestionsContainer.style.display = 'block';
                         }
-                    }, 400)); // Debounce time
+                    }, 400)); 
 
-                    // Hide suggestions if user clicks outside search input and suggestions box
                     document.addEventListener('click', (e_doc) => {
-                        if (modal.classList.contains('is-open')) { // Only act if modal is open
+                        if (modal.classList.contains('is-open')) { 
                            if (!searchInput.contains(e_doc.target) && !suggestionsContainer.contains(e_doc.target)) {
                                 suggestionsContainer.style.display = 'none';
                             }
                         }
-                    }, true); // Use capture to ensure it runs before other clicks might remove elements
+                    }, true); 
                 }
-
 
                 setTimeout(() => { 
                     if (formMapInstance) formMapInstance.invalidateSize();
@@ -532,7 +556,7 @@
             function displayAutocompleteSuggestions(results, suggestionsContainer, formElement, searchInput) {
                 suggestionsContainer.innerHTML = '';
                 if (!results || results.length === 0) {
-                    suggestionsContainer.innerHTML = '<div style="padding: 0.6rem 0.8rem; font-style: italic;">No results found.</div>';
+                    suggestionsContainer.innerHTML = '<div style="padding: 0.6rem 0.8rem; font-style: italic;">No results found. Try a broader term or check spelling.</div>';
                     suggestionsContainer.style.display = 'block';
                     return;
                 }
@@ -544,7 +568,7 @@
                         const lat = parseFloat(result.lat);
                         const lon = parseFloat(result.lon);
 
-                        searchInput.value = result.display_name; // Update search field with full selected name
+                        searchInput.value = result.display_name; 
 
                         updateFormLocationFields(formElement, lat, lon);
                         populateFormTextFieldsFromGeo(result.address, result.display_name, formElement);
@@ -559,7 +583,6 @@
                 });
                 suggestionsContainer.style.display = 'block';
             }
-
 
             function openModal(type) {
                 previouslyFocusedElement = document.activeElement;
