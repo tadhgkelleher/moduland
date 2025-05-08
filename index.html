@@ -67,7 +67,7 @@
         .how-it-works li::marker { color: #2E4A3D; font-weight: bold; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(26,47,39,0.8) 100%); align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease-in-out; padding: 20px; }
         .modal.is-open { display: flex; opacity: 1; }
-        .modal-content-wrapper { background: var(--modal-bg); padding: 2.5rem; border-radius: var(--border-radius-lg); max-width: 550px; width: 100%; text-align: center; position: relative; box-shadow: var(--shadow-hover); transform: scale(0.95); transition: transform 0.3s ease-in-out; }
+        .modal-content-wrapper { background: var(--modal-bg); padding: 2.5rem; border-radius: var(--border-radius-lg); max-width: 550px; width: 100%; text-align: center; position: relative; box-shadow: var(--shadow-hover); transform: scale(0.95); transition: transform 0.3s ease-in-out; max-height: 90vh; overflow-y: auto; }
         .modal.is-open .modal-content-wrapper { transform: scale(1); }
         .modal-content-wrapper h2 { font-size: 1.9rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.25rem; }
         .modal-content-wrapper form { display: flex; flex-direction: column; gap: 1rem; }
@@ -103,6 +103,33 @@
         /* Form map specific styles */
         .form-map-container { height: 220px; width: 100%; margin-bottom: 0.5rem; border-radius: var(--border-radius-md); background-color: #e9e9e9; border: 1px solid var(--border-light); }
         .form-map-instruction { display: block; margin-top: -0.8rem; margin-bottom: 1rem; font-size: 0.8rem; color: var(--text-light); }
+
+        /* Autocomplete suggestions styling */
+        .autocomplete-suggestions {
+            border: 1px solid var(--border-light);
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: var(--white);
+            position: relative; /* Ensures it flows in document, use absolute if complex layout needs it */
+            z-index: 2005; /* High z-index to be on top of other form elements */
+            margin-top: -1px; /* Align with bottom of input */
+            border-bottom-left-radius: var(--border-radius-md);
+            border-bottom-right-radius: var(--border-radius-md);
+        }
+        .autocomplete-suggestions div {
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .autocomplete-suggestions div:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-suggestions div:hover {
+            background-color: #f0f0f0;
+            color: var(--primary-text-on-light-hover, #2E4A3D); /* Example text color on hover */
+        }
 
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -174,12 +201,17 @@
             <label for="landowner-name">Full Name</label><input type="text" id="landowner-name" name="name" required placeholder="John Doe">
             <label for="landowner-email">Email Address</label><input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
             <label for="landowner-land-size">Land Size (acres)</label><input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
-            <label for="landowner-location">Location (County)</label><input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
-            <label for="landowner-location-detail">Specific Location Description</label><input type="text" id="landowner-location-detail" name="location_detail" placeholder="E.g., Near town center, specific address if comfortable">
+            
+            <label for="landowner-location-search">Search Location</label>
+            <input type="text" id="landowner-location-search" name="location_search" placeholder="Type an address, Eircode, or town..." autocomplete="off">
+            <div class="autocomplete-suggestions" id="landowner-autocomplete-suggestions" style="display: none;"></div>
+
+            <label for="landowner-location">County</label><input type="text" id="landowner-location" name="location" placeholder="Co. Meath (auto-filled from map/search)">
+            <label for="landowner-location-detail">Specific Location (Address/Description)</label><input type="text" id="landowner-location-detail" name="location_detail" placeholder="Street, Townland (auto-filled from map/search)">
             
             <label for="form-map-interactive-landowner" style="margin-top: 0.5rem; display: block;">Pinpoint Location on Map (Optional):</label>
             <div id="form-map-interactive-landowner" class="form-map-container"></div>
-            <small class="form-map-instruction">Click map to set/adjust pin. Your browser location may be used as a starting point if available.</small>
+            <small class="form-map-instruction">Click map to set/adjust pin. Or use search above. Location fields will auto-update.</small>
             <input type="hidden" name="latitude" id="landowner-latitude">
             <input type="hidden" name="longitude" id="landowner-longitude">
 
@@ -196,12 +228,17 @@
             <label for="buyer-email">Email Address</label><input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
             <label for="buyer-budget">Budget (€)</label><input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
             <label for="buyer-type">Interest Type</label><select id="buyer-type" name="type" required><option value="">Select...</option><option value="land">Land Plot Only</option><option value="home">Modular Home + Land</option></select>
-            <label for="buyer-location">Target Location/County</label><input type="text" id="buyer-location" name="location" placeholder="Co. Cork">
-            <label for="buyer-location-detail">Specific Preferred Location Description</label><input type="text" id="buyer-location-detail" name="location_detail" placeholder="E.g., Rural setting, close to amenities">
+            
+            <label for="buyer-location-search">Search Target Location</label>
+            <input type="text" id="buyer-location-search" name="location_search" placeholder="Type an address, Eircode, or town..." autocomplete="off">
+            <div class="autocomplete-suggestions" id="buyer-autocomplete-suggestions" style="display: none;"></div>
+
+            <label for="buyer-location">Target County</label><input type="text" id="buyer-location" name="location" placeholder="Co. Cork (auto-filled from map/search)">
+            <label for="buyer-location-detail">Specific Preferred Location (Address/Description)</label><input type="text" id="buyer-location-detail" name="location_detail" placeholder="Rural setting, close to amenities (auto-filled from map/search)">
             
             <label for="form-map-interactive-buyer" style="margin-top: 0.5rem; display: block;">Pinpoint Preferred Area on Map (Optional):</label>
             <div id="form-map-interactive-buyer" class="form-map-container"></div>
-            <small class="form-map-instruction">Click map to set/adjust pin. Your browser location may be used as a starting point if available.</small>
+            <small class="form-map-instruction">Click map to set/adjust pin. Or use search above. Location fields will auto-update.</small>
             <input type="hidden" name="latitude" id="buyer-latitude">
             <input type="hidden" name="longitude" id="buyer-longitude">
 
@@ -229,23 +266,77 @@
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwL0NKGu3AnUtkf4Z-GIMkeNnR1vulFq443ZRm5Fi6ZiRRDt45hgOzRXtVAenr51ph6/exec';
         const irelandCenter = [53.4129, -8.2439];
+        const NOMINATIM_USER_AGENT = 'ModularIrelandWebsite/1.0 (Contact: info@example.com)'; // REPLACE with actual contact
 
-        // Global map variable for Leaflet (MAIN PAGE MAP)
         let map;
-        let activeMarkers = []; // To keep track of current markers for easy removal on main map
+        let activeMarkers = []; 
 
-        // Variables for the modal form map
         let formMapInstance = null; 
         let formMapMarker = null;   
 
-        // Function to initialize the Leaflet map (MAIN PAGE MAP)
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        async function fetchNominatimSearch(query) {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=IE&addressdetails=1&limit=5`;
+            const response = await fetch(url, { headers: { 'User-Agent': NOMINATIM_USER_AGENT } });
+            if (!response.ok) throw new Error(`Nominatim search failed: ${response.statusText}`);
+            return await response.json();
+        }
+
+        async function fetchNominatimReverse(lat, lon) {
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`;
+            const response = await fetch(url, { headers: { 'User-Agent': NOMINATIM_USER_AGENT } });
+            if (!response.ok) throw new Error(`Nominatim reverse geocode failed: ${response.statusText}`);
+            return await response.json();
+        }
+
+        function populateFormTextFieldsFromGeo(address, displayName, formElement) {
+            const countyInput = formElement.querySelector('input[name="location"]');
+            const detailInput = formElement.querySelector('input[name="location_detail"]');
+
+            if (countyInput) {
+                countyInput.value = address.county || address.state || '';
+            }
+            if (detailInput) {
+                let detailAddrParts = [];
+                if (address.road) detailAddrParts.push(address.road);
+                if (address.hamlet) detailAddrParts.push(address.hamlet);
+                else if (address.village) detailAddrParts.push(address.village);
+                else if (address.town) detailAddrParts.push(address.town);
+                else if (address.city) detailAddrParts.push(address.city);
+                if (address.postcode) detailAddrParts.push(address.postcode);
+                
+                let constructedDetail = detailAddrParts.join(', ');
+                if (constructedDetail) {
+                     detailInput.value = constructedDetail;
+                } else {
+                    let fallbackDisplay = displayName || "";
+                    if (address.county && fallbackDisplay.includes(address.county)) {
+                        fallbackDisplay = fallbackDisplay.replace(new RegExp(",?\\s*" + address.county + "\\b", 'gi'), '').trim();
+                        if (fallbackDisplay.endsWith(',')) fallbackDisplay = fallbackDisplay.slice(0, -1).trim();
+                    }
+                    if (fallbackDisplay.includes("Ireland")) {
+                         fallbackDisplay = fallbackDisplay.replace(/,?\s*Ireland\b/gi, '').trim();
+                         if (fallbackDisplay.endsWith(',')) fallbackDisplay = fallbackDisplay.slice(0, -1).trim();
+                    }
+                    detailInput.value = fallbackDisplay;
+                }
+            }
+        }
+        
         async function initializeLeafletMap() {
             if (!document.getElementById('map')) {
                 console.error("Main map container 'map' not found.");
                 return;
             }
             if (!map) { 
-                map = L.map('map').setView(irelandCenter, 7);
+                map = L.map('map', { zoomControl: true }).setView(irelandCenter, 7); // Zoom control explicitly true
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 18,
@@ -296,7 +387,7 @@
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
             if (typeof L !== 'undefined') {
-                 initializeLeafletMap(); // Initialize main page map
+                 initializeLeafletMap(); 
             } else {
                 console.error("Leaflet library not loaded.");
                 const mapDiv = document.getElementById('map');
@@ -315,73 +406,160 @@
                 if (latInput) latInput.value = lat;
                 if (lonInput) lonInput.value = lng;
             }
+            
+            function placeMarkerAndUpdate(latlng, zoomLevel = 13, setMapView = true, currentFormElement) {
+                if (!formMapInstance || !currentFormElement) return;
+
+                if (formMapMarker) {
+                    try { formMapInstance.removeLayer(formMapMarker); } catch(e) { /* ignore */ }
+                }
+                formMapMarker = L.marker(latlng, { draggable: true }).addTo(formMapInstance);
+                
+                if (setMapView) {
+                    formMapInstance.setView(latlng, zoomLevel);
+                }
+                updateFormLocationFields(currentFormElement, latlng.lat.toFixed(6), latlng.lng.toFixed(6));
+
+                fetchNominatimReverse(latlng.lat, latlng.lng)
+                    .then(data => {
+                        if (data && (data.address || data.display_name)) {
+                            populateFormTextFieldsFromGeo(data.address || {}, data.display_name || "", currentFormElement);
+                        } else {
+                             console.warn("No address details found for this location via reverse geocoding.");
+                             // Clear fields if no meaningful data from reverse geocoding
+                             populateFormTextFieldsFromGeo({}, "", currentFormElement); 
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Reverse geocoding error:", error);
+                        populateFormTextFieldsFromGeo({}, "", currentFormElement); // Clear on error too
+                    });
+
+                formMapMarker.on('dragend', function(event) {
+                    const newLatLng = event.target.getLatLng();
+                    updateFormLocationFields(currentFormElement, newLatLng.lat.toFixed(6), newLatLng.lng.toFixed(6));
+                    fetchNominatimReverse(newLatLng.lat, newLatLng.lng)
+                        .then(data => {
+                            if (data && (data.address || data.display_name)) {
+                                populateFormTextFieldsFromGeo(data.address || {}, data.display_name || "", currentFormElement);
+                            }
+                        })
+                        .catch(err => console.error("Reverse geocoding error on drag:", err));
+                });
+            }
+
 
             function initializeFormMapAndGeolocation(formElement) {
                 const formTypeInput = formElement.querySelector('input[name="formType"]');
                 if (!formTypeInput) {
                     console.error("Form type input not found in form.");
-                    updateFormLocationFields(formElement, '', '');
-                    return;
+                    updateFormLocationFields(formElement, '', ''); return;
                 }
                 const mapDivId = formTypeInput.value === 'landowner' ? 'form-map-interactive-landowner' : 'form-map-interactive-buyer';
                 const formMapDiv = formElement.querySelector(`#${mapDivId}`);
                 
                 if (!formMapDiv) {
                     console.error("Form map div not found:", mapDivId);
-                    updateFormLocationFields(formElement, '', '');
-                    return;
+                    updateFormLocationFields(formElement, '', ''); return;
                 }
 
-                if (formMapInstance) { // Clean up previous instance if any (should be handled by closeModal mostly)
+                if (formMapInstance) { 
                     try { formMapInstance.remove(); } catch(e) { console.warn("Error removing old formMapInstance", e); }
                     formMapInstance = null; formMapMarker = null;
                 }
 
-                formMapInstance = L.map(formMapDiv, { scrollWheelZoom: false }).setView(irelandCenter, 6);
+                formMapInstance = L.map(formMapDiv, { scrollWheelZoom: false, zoomControl: true }).setView(irelandCenter, 6);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OSM', maxZoom: 18,
                 }).addTo(formMapInstance);
-
-                function placeMarkerAndUpdate(latlng, zoomLevel = 13, setMapView = true) {
-                    if (formMapMarker) {
-                        try { formMapInstance.removeLayer(formMapMarker); } catch(e) { /* Marker might already be removed */ }
-                    }
-                    formMapMarker = L.marker(latlng, { draggable: true }).addTo(formMapInstance);
-                    if (setMapView) {
-                        formMapInstance.setView(latlng, zoomLevel);
-                    }
-                    updateFormLocationFields(formElement, latlng.lat.toFixed(6), latlng.lng.toFixed(6));
-
-                    formMapMarker.on('dragend', function(event) {
-                        const newLatLng = event.target.getLatLng();
-                        updateFormLocationFields(formElement, newLatLng.lat.toFixed(6), newLatLng.lng.toFixed(6));
-                    });
-                }
                 
-                updateFormLocationFields(formElement, '', ''); // Initialize fields as empty
+                updateFormLocationFields(formElement, '', ''); 
 
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         (position) => {
-                            placeMarkerAndUpdate(L.latLng(position.coords.latitude, position.coords.longitude));
+                            placeMarkerAndUpdate(L.latLng(position.coords.latitude, position.coords.longitude), 13, true, formElement);
                         },
-                        (error) => {
-                            console.warn(`Geolocation error for form: ${error.message}. User may need to click map.`);
-                        },
+                        (error) => { console.warn(`Geolocation error for form: ${error.message}.`); },
                         { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
                     );
-                } else {
-                    console.warn('Geolocation is not supported for form map.');
-                }
+                } else { console.warn('Geolocation is not supported for form map.'); }
 
                 formMapInstance.on('click', function(e) {
-                    placeMarkerAndUpdate(e.latlng, formMapInstance.getZoom(), false); // Place marker, don't change view zoom/center
+                    placeMarkerAndUpdate(e.latlng, formMapInstance.getZoom(), false, formElement); 
                 });
                 
-                setTimeout(() => { // Ensure map renders correctly after modal transition
+                // Autocomplete setup
+                const searchInputId = formTypeInput.value === 'landowner' ? 'landowner-location-search' : 'buyer-location-search';
+                const searchInput = formElement.querySelector(`#${searchInputId}`);
+                const suggestionsContainerId = formTypeInput.value === 'landowner' ? 'landowner-autocomplete-suggestions' : 'buyer-autocomplete-suggestions';
+                const suggestionsContainer = formElement.querySelector(`#${suggestionsContainerId}`);
+
+                if (searchInput && suggestionsContainer) {
+                    searchInput.addEventListener('input', debounce(async (e) => {
+                        const query = e.target.value;
+                        if (query.length < 3) {
+                            suggestionsContainer.innerHTML = '';
+                            suggestionsContainer.style.display = 'none';
+                            return;
+                        }
+                        try {
+                            const results = await fetchNominatimSearch(query);
+                            displayAutocompleteSuggestions(results, suggestionsContainer, formElement, searchInput);
+                        } catch (error) {
+                            console.error("Autocomplete error:", error);
+                            suggestionsContainer.innerHTML = '<div style="padding: 0.6rem 0.8rem; font-style: italic;">Error fetching suggestions.</div>';
+                            suggestionsContainer.style.display = 'block';
+                        }
+                    }, 400)); // Debounce time
+
+                    // Hide suggestions if user clicks outside search input and suggestions box
+                    document.addEventListener('click', (e_doc) => {
+                        if (modal.classList.contains('is-open')) { // Only act if modal is open
+                           if (!searchInput.contains(e_doc.target) && !suggestionsContainer.contains(e_doc.target)) {
+                                suggestionsContainer.style.display = 'none';
+                            }
+                        }
+                    }, true); // Use capture to ensure it runs before other clicks might remove elements
+                }
+
+
+                setTimeout(() => { 
                     if (formMapInstance) formMapInstance.invalidateSize();
                 }, 350);
             }
+            
+            function displayAutocompleteSuggestions(results, suggestionsContainer, formElement, searchInput) {
+                suggestionsContainer.innerHTML = '';
+                if (!results || results.length === 0) {
+                    suggestionsContainer.innerHTML = '<div style="padding: 0.6rem 0.8rem; font-style: italic;">No results found.</div>';
+                    suggestionsContainer.style.display = 'block';
+                    return;
+                }
+
+                results.slice(0, 5).forEach(result => {
+                    const div = document.createElement('div');
+                    div.textContent = result.display_name;
+                    div.addEventListener('click', () => {
+                        const lat = parseFloat(result.lat);
+                        const lon = parseFloat(result.lon);
+
+                        searchInput.value = result.display_name; // Update search field with full selected name
+
+                        updateFormLocationFields(formElement, lat, lon);
+                        populateFormTextFieldsFromGeo(result.address, result.display_name, formElement);
+
+                        if (formMapInstance) {
+                            placeMarkerAndUpdate(L.latLng(lat, lon), 13, true, formElement);
+                        }
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'none';
+                    });
+                    suggestionsContainer.appendChild(div);
+                });
+                suggestionsContainer.style.display = 'block';
+            }
+
 
             function openModal(type) {
                 previouslyFocusedElement = document.activeElement;
@@ -431,7 +609,7 @@
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
             
-            modal.addEventListener('keydown', (e) => { // Trap focus
+            modal.addEventListener('keydown', (e) => { 
                 if (e.key !== 'Tab' || !modal.classList.contains('is-open')) return;
                 const focusableElements = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => el.offsetParent !== null && !el.disabled);
                 if (focusableElements.length === 0) return;
@@ -452,7 +630,7 @@
                 submitButton.disabled = true; submitButton.textContent = 'Submitting...';
                 
                 const formData = new FormData(form);
-                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) { // Basic check for placeholder URL
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) {
                     console.error("Google Script URL is not set correctly.");
                     alert("Configuration error: Submission URL is not set.");
                     submitButton.disabled = false; submitButton.textContent = originalButtonText; return;
@@ -463,8 +641,8 @@
                     if (result.status === "success") {
                         alert('Success! Your information has been submitted. ' + (result.message || ''));
                         form.reset(); closeModal();
-                        if (typeof L !== 'undefined' && map) { // Check if main map exists
-                            initializeLeafletMap(); // Refresh main map data
+                        if (typeof L !== 'undefined' && map) { 
+                            initializeLeafletMap(); 
                         }
                     } else {
                         console.error('Submission error from script:', result.message || 'Unknown error from script.');
@@ -481,5 +659,3 @@
     </script>
 </body>
 </html>
-
-
