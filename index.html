@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Modulare - Premium modular housing solutions for landowners and buyers in Ireland.">
-    <title>Modulare - Luxury Modular Homes</title>
+    <title>Modulare - Bespoke Modular Living</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Minimal CSS Reset */
         *, *::before, *::after {
@@ -16,112 +19,165 @@
         /* CSS Variables */
         :root {
             --primary: #4A7043; /* Sage Green */
+            --primary-dark: #3B5A36; /* Darker Sage */
             --accent: #D9776A; /* Soft Terracotta */
             --gold: #E3B23C; /* Warm Gold */
             --light-bg: #F9F5F0; /* Warm Beige */
             --white: #FFFFFF;
             --text: #333333;
-            --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --text-light: #555555;
+            --border-light: #e0d8cd;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 12px;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
         }
 
         /* General Styling */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.8;
+            font-family: var(--font-body);
+            line-height: 1.7;
             background-color: var(--light-bg);
             color: var(--text);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 25px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--primary);
         }
 
         /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary), #5A8A50);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--white);
-            padding: 2.5rem 0;
+            padding: 2rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
+        }
+
+        header .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         header h1 {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             font-weight: 700;
-            text-align: center;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             opacity: 0.9;
-            text-align: center;
+            font-family: var(--font-body);
+            font-weight: 300;
         }
 
         /* Hero Section */
         .hero {
-            background: var(--white);
-            padding: 4rem 2rem;
+            background-color: var(--white);
+            /* Consider adding a subtle background image related to nature/architecture */
+            /* background-image: linear-gradient(rgba(249, 245, 240, 0.85), rgba(249, 245, 240, 0.95)), url('your-subtle-bg-image.jpg'); */
+            /* background-size: cover; */
+            /* background-position: center; */
+            padding: 5rem 2.5rem;
             text-align: center;
-            margin: 3rem 0;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            animation: fadeIn 1.2s ease-out;
+            margin: 4rem 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 1s ease-out;
         }
 
         .hero h2 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
+            font-weight: 700;
             color: var(--primary);
             margin-bottom: 1.5rem;
+            line-height: 1.3;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
+            font-size: 1.25rem;
+            max-width: 850px;
+            margin: 0 auto 2rem;
+            color: var(--text-light);
         }
 
         /* Gallery Section */
         .gallery {
-            padding: 4rem 0;
+            padding: 5rem 0;
             text-align: center;
         }
 
         .gallery h2 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--primary);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2.5rem;
         }
 
         .gallery-item {
             position: relative;
             overflow: hidden;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            transition: transform var(--transition);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition), box-shadow var(--transition);
+            background-color: #e0e0e0; /* Placeholder BG */
+            aspect-ratio: 16 / 10; /* Maintain aspect ratio */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gallery-item::before { /* Placeholder text */
+            content: "Luxury Image";
+            font-family: var(--font-heading);
+            color: #aaa;
+            font-size: 1.2rem;
         }
 
+
         .gallery-item:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--shadow-lg);
         }
 
         .gallery-item img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
         }
 
         .gallery-caption {
@@ -129,95 +185,141 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
             color: var(--white);
-            padding: 1rem;
-            font-size: 0.95rem;
-            transform: translateY(100%);
-            transition: transform var(--transition);
+            padding: 2rem 1.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            transform: translateY(50%); /* Initially partly hidden */
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
         }
 
         .gallery-item:hover .gallery-caption {
             transform: translateY(0);
+            opacity: 1;
         }
 
         /* CTA Sections */
         .cta-sections {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
         }
 
         .cta-section {
             background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            padding: 3rem 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
             text-align: center;
             transition: transform var(--transition), box-shadow var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .cta-section:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
         }
 
         .cta-section h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
+            font-weight: 700;
             color: var(--primary);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
         .cta-section p {
             font-size: 1.1rem;
-            color: #555;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            flex-grow: 1;
         }
 
         .cta-button {
             display: inline-block;
             background: linear-gradient(135deg, var(--accent), var(--gold));
             color: var(--white);
-            padding: 0.9rem 2rem;
+            padding: 1rem 2.5rem;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
-            margin-top: 1.5rem;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(217, 119, 106, 0.3);
         }
 
-        .cta-button:hover {
+        .cta-button:hover, .cta-button:focus {
             background: linear-gradient(135deg, var(--gold), var(--accent));
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(227, 178, 60, 0.4);
+            outline: none;
         }
+        .cta-button:focus-visible { /* More specific focus */
+             outline: 2px solid var(--primary-dark);
+             outline-offset: 2px;
+        }
+
 
         /* How It Works */
         .how-it-works {
             background: var(--white);
-            padding: 4rem 2rem;
-            margin: 3rem 0;
-            border-radius: 12px;
+            padding: 5rem 2.5rem;
+            margin: 4rem 0;
+            border-radius: var(--border-radius);
             text-align: center;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
         }
 
         .how-it-works h2 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--primary);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .how-it-works ol {
-            list-style-position: inside;
-            font-size: 1.15rem;
-            color: #555;
+            list-style: none; /* Remove default numbering */
+            counter-reset: process-counter;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .how-it-works li {
-            margin: 0.75rem 0;
+            margin: 1.5rem 0;
+            padding-left: 3rem;
+            position: relative;
+            text-align: left;
         }
 
-        /* Forms */
+        .how-it-works li::before {
+            counter-increment: process-counter;
+            content: counter(process-counter);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--gold);
+            color: var(--white);
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+        }
+
+        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -225,149 +327,223 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.65); /* Darker overlay */
             align-items: center;
             justify-content: center;
             z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
         }
 
         .modal-content {
             background: var(--white);
             padding: 3rem;
-            border-radius: 12px;
-            max-width: 600px;
+            border-radius: var(--border-radius);
+            max-width: 650px;
             width: 90%;
             text-align: center;
             position: relative;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
         }
 
+
         .modal-content h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .modal-content form {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1.5rem;
         }
 
         .modal-content label {
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--primary);
             font-weight: 600;
+            font-family: var(--font-heading);
         }
 
         .modal-content input,
         .modal-content select,
         .modal-content textarea {
-            padding: 0.9rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
             font-size: 1rem;
+            font-family: var(--font-body);
             width: 100%;
             background: var(--light-bg);
+            transition: border-color var(--transition), box-shadow var(--transition);
         }
+         .modal-content input:focus,
+         .modal-content select:focus,
+         .modal-content textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 112, 67, 0.2);
+         }
+
 
         .modal-content textarea {
             resize: vertical;
             min-height: 120px;
         }
 
-        .modal-content button {
+        .modal-content button[type="submit"] { /* More specific */
             background: linear-gradient(135deg, var(--accent), var(--gold));
             color: var(--white);
-            padding: 0.9rem;
+            padding: 1rem;
             border: none;
             border-radius: 50px;
             font-weight: 600;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(217, 119, 106, 0.3);
+            margin-top: 1rem;
         }
 
-        .modal-content button:hover {
+        .modal-content button[type="submit"]:hover {
             background: linear-gradient(135deg, var(--gold), var(--accent));
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(227, 178, 60, 0.4);
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.8rem;
+            top: 20px;
+            right: 25px;
+            font-size: 2rem;
             cursor: pointer;
-            color: var(--text);
+            color: var(--text-light);
+            transition: color var(--transition), transform var(--transition);
+            line-height: 1;
+        }
+        .close-modal:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
         }
 
         /* Footer */
         footer {
-            background: var(--primary);
-            color: var(--white);
-            padding: 2.5rem;
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.8);
+            padding: 3rem 0;
             text-align: center;
+            margin-top: 4rem;
         }
 
         footer p {
-            margin: 0;
+            margin: 0 0 1rem;
             font-size: 0.95rem;
+            font-family: var(--font-body);
         }
 
         .social-icons {
-            margin-top: 1.2rem;
+            margin-top: 1.5rem;
         }
 
         .social-icons a {
             color: var(--white);
-            font-size: 1.6rem;
-            margin: 0 0.6rem;
+            font-size: 1.8rem; /* Increased size for better visibility */
+            margin: 0 0.8rem;
             text-decoration: none;
             transition: var(--transition);
+            opacity: 0.8;
         }
 
         .social-icons a:hover {
             color: var(--gold);
+            opacity: 1;
+            transform: scale(1.2);
         }
+        /* Placeholder for Font Awesome or SVGs later */
+        .social-icons a[aria-label="Facebook"]::before { content: ""; font-family: "Font Awesome 6 Brands", "Font Awesome 5 Brands"; } /* Placeholder, won't render without FA */
+        .social-icons a[aria-label="Twitter"]::before { content: ""; font-family: "Font Awesome 6 Brands", "Font Awesome 5 Brands"; }
+        .social-icons a[aria-label="LinkedIn"]::before { content: ""; font-family: "Font Awesome 6 Brands", "Font Awesome 5 Brands"; }
+        /* Using simple text as fallback if FA not present */
+        .social-icons a:not(:empty)::before { display: none; } /* Hide :before if actual text content exists */
+
 
         /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Add this for elements you want to animate on scroll (requires JS Intersection Observer) */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .cta-section h2 {
-                font-size: 1.8rem;
-            }
-
-            .cta-sections,
+        @media (max-width: 992px) {
             .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            .cta-sections {
                 grid-template-columns: 1fr;
             }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            header p {
+                font-size: 1.1rem;
+            }
+            .hero { padding: 4rem 2rem; margin: 3rem 0; }
+            .hero h2 { font-size: 2.4rem; }
+            .gallery { padding: 3rem 0; }
+            .gallery h2, .how-it-works h2 { font-size: 2.2rem; }
+            .how-it-works { padding: 3rem 2rem; }
+            .how-it-works li { padding-left: 2.5rem; }
+            .how-it-works li::before { width: 2rem; height: 2rem; font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 0 15px;
             }
+            header h1 { font-size: 2rem; letter-spacing: 2px;}
+            header p { font-size: 1rem; }
+            .hero { padding: 3rem 1.5rem; }
+            .hero h2 { font-size: 2rem; }
+            .hero p { font-size: 1.1rem; }
 
-            .hero {
-                padding: 2.5rem 1.5rem;
-            }
+            .gallery-grid { gap: 1.5rem; }
+            .gallery-item { minmax(280px, 1fr); }
 
-            .cta-button,
-            .modal-content button {
-                padding: 0.7rem 1.2rem;
-            }
+            .cta-section { padding: 2rem 1.5rem; }
+            .cta-section h2 { font-size: 1.8rem; }
+            .cta-button, .modal-content button[type="submit"] { padding: 0.8rem 2rem; font-size: 0.9rem; }
+
+            .modal-content { padding: 2rem 1.5rem; }
+            .modal-content h2 { font-size: 1.8rem; }
+            footer { padding: 2rem 0; }
+            .social-icons a { font-size: 1.6rem; margin: 0 0.6rem; }
         }
     </style>
 </head>
@@ -375,38 +551,36 @@
     <header>
         <div class="container">
             <h1>Modulare</h1>
-            <p>Elegant Modular Living for Ireland</p>
+            <p>Bespoke Modular Living for Ireland</p>
         </div>
     </header>
 
-    <div class="container">
+    <main class="container">
         <section class="hero" aria-labelledby="hero-title">
             <h2 id="hero-title">Curate Your Legacy with Bespoke Modular Homes</h2>
             <p>
                 Modulare connects landowners and buyers to craft sustainable, luxurious modular living spaces that harmonize with Ireland’s natural beauty.
             </p>
+            <a href="#buyers" class="cta-button">Explore Our Vision</a>
         </section>
 
-        <section class="gallery" aria-labelledby="gallery-title">
+        <section class="gallery animate-on-scroll" aria-labelledby="gallery-title">
             <h2 id="gallery-title">Envision Your Future Home</h2>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <!-- Placeholder for Cuileann House image -->
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==" alt="Cuileann House Modular Home">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23cccccc'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='40' fill='%23999999'%3ECuileann House%3C/text%3E%3C/svg%3E" alt="Cuileann House Modular Home">
                     <div class="gallery-caption">
                         Cuileann House: Timeless concrete elegance with eco-conscious design.
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <!-- Placeholder for Scandinavian Modular image -->
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==" alt="Scandinavian Modular Home">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23cccccc'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='40' fill='%23999999'%3EScandinavian Style%3C/text%3E%3C/svg%3E" alt="Scandinavian Modular Home">
                     <div class="gallery-caption">
                         Scandinavian serenity: Bespoke, timber-clad homes with unparalleled insulation.
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <!-- Placeholder for Mobile Modular image -->
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0g==" alt="Luxury Mobile Modular">
+                     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23cccccc'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='40' fill='%23999999'%3EMobile Luxury%3C/text%3E%3C/svg%3E" alt="Luxury Mobile Modular">
                     <div class="gallery-caption">
                         Modern luxury: Swiftly crafted modular homes with smart, sustainable features.
                     </div>
@@ -415,38 +589,42 @@
         </section>
 
         <div class="cta-sections">
-            <section class="cta-section" id="landowners" aria-labelledby="landowner-title">
-                <h2 id="landowner-title">Are you Selling Land?</h2>
-                <p>
-                    Transform your land into an exclusive modular community, blending sustainability with unparalleled value.
-                </p>
+            <section class="cta-section animate-on-scroll" id="landowners" aria-labelledby="landowner-title">
+                <div>
+                    <h2 id="landowner-title">Are you Selling Land?</h2>
+                    <p>
+                        Transform your land into an exclusive modular community, blending sustainability with unparalleled value.
+                    </p>
+                </div>
                 <a href="#landowner-form" class="cta-button" data-modal="landowner">Offer Your Land</a>
             </section>
 
-            <section class="cta-section" id="buyers" aria-labelledby="buyer-title">
-                <h2 id="buyer-title">Are you Looking to Buy?</h2>
-                <p>
-                    Discover bespoke modular homes or prime land plots, designed for elegance and eco-conscious living.
-                </p>
+            <section class="cta-section animate-on-scroll" id="buyers" aria-labelledby="buyer-title">
+                <div>
+                    <h2 id="buyer-title">Are you Looking to Buy?</h2>
+                    <p>
+                        Discover bespoke modular homes or prime land plots, designed for elegance and eco-conscious living.
+                    </p>
+                </div>
                 <a href="#buyer-form" class="cta-button" data-modal="buyer">Find Your Dream Home</a>
             </section>
         </div>
 
-        <section class="how-it-works" aria-labelledby="how-it-works-title">
-            <h2 id="how-it-works-title">Our Process</h2>
+        <section class="how-it-works animate-on-scroll" aria-labelledby="how-it-works-title">
+            <h2 id="how-it-works-title">Our Simple Process</h2>
             <ol>
-                <li>Share Your Vision: Complete our tailored interest form.</li>
-                <li>Connect Seamlessly: We match you with curated opportunities.</li>
-                <li>Craft Your Future: Build or buy with our expert guidance.</li>
+                <li>Share Your Vision: Complete our tailored interest form with your requirements.</li>
+                <li>Connect Seamlessly: We meticulously match you with curated opportunities or partners.</li>
+                <li>Craft Your Future: Build or buy with our expert guidance and dedicated support.</li>
             </ol>
         </section>
-    </div>
+    </main>
 
     <!-- Modals with Forms -->
     <div class="modal" id="form-modal">
         <div class="modal-content">
-            <span class="close-modal" aria-label="Close modal">×</span>
-            <div id="modal-content">
+            <span class="close-modal" aria-label="Close modal" tabindex="0">×</span>
+            <div id="modal-content-dynamic">
                 <!-- Content will be dynamically updated -->
             </div>
         </div>
@@ -456,17 +634,26 @@
     <template id="landowner-form">
         <h2>Landowner Interest Form</h2>
         <form action="#" method="post">
-            <label for="landowner-name">Full Name</label>
-            <input type="text" id="landowner-name" name="name" required placeholder="John Doe">
-            <label for="landowner-email">Email Address</label>
-            <input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
-            <label for="landowner-land-size">Land Size (acres)</label>
-            <input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
-            <label for="landowner-location">Location (County)</label>
-            <input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
-            <label for="landowner-goals">Development Goals</label>
-            <textarea id="landowner-goals" name="goals" placeholder="E.g., Create a sustainable modular community"></textarea>
-            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
+            <div>
+                <label for="landowner-name">Full Name</label>
+                <input type="text" id="landowner-name" name="name" required placeholder="John Doe">
+            </div>
+            <div>
+                <label for="landowner-email">Email Address</label>
+                <input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
+            </div>
+            <div>
+                <label for="landowner-land-size">Land Size (acres)</label>
+                <input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="e.g., 5.0">
+            </div>
+            <div>
+                <label for="landowner-location">Location (County)</label>
+                <input type="text" id="landowner-location" name="location" placeholder="e.g., Co. Meath">
+            </div>
+            <div>
+                <label for="landowner-goals">Development Goals & Vision</label>
+                <textarea id="landowner-goals" name="goals" placeholder="Describe your aspirations for the land (e.g., create a sustainable modular community, sell plots individually)"></textarea>
+            </div>
             <button type="submit">Submit Interest</button>
         </form>
     </template>
@@ -474,76 +661,156 @@
     <template id="buyer-form">
         <h2>Buyer Interest Form</h2>
         <form action="#" method="post">
-            <label for="buyer-name">Full Name</label>
-            <input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
-            <label for="buyer-email">Email Address</label>
-            <input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
-            <label for="buyer-budget">Budget (€)</label>
-            <input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
-            <label for="buyer-type">Interest Type</label>
-            <select id="buyer-type" name="type" required>
-                <option value="">Select...</option>
-                <option value="land">Land Plot Only</option>
-                <option value="home">Modular Home + Land</option>
-            </select>
-            <label for="buyer-preferences">Preferences</label>
-            <textarea id="buyer-preferences" name="preferences" placeholder="E.g., Eco-friendly design, 3 bedrooms, solar panels"></textarea>
-            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
+            <div>
+                <label for="buyer-name">Full Name</label>
+                <input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
+            </div>
+            <div>
+                <label for="buyer-email">Email Address</label>
+                <input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
+            </div>
+            <div>
+                <label for="buyer-budget">Approximate Budget (€)</label>
+                <input type="number" id="buyer-budget" name="budget" min="0" placeholder="e.g., 400000">
+            </div>
+            <div>
+                <label for="buyer-type">What are you looking for?</label>
+                <select id="buyer-type" name="type" required>
+                    <option value="">Please select...</option>
+                    <option value="land">Land Plot Only</option>
+                    <option value="home">Modular Home + Land</option>
+                    <option value="modular_home_only">Modular Home (for existing land)</option>
+                </select>
+            </div>
+            <div>
+                <label for="buyer-preferences">Key Preferences & Requirements</label>
+                <textarea id="buyer-preferences" name="preferences" placeholder="e.g., Eco-friendly design, 3 bedrooms, specific location preferences, desired completion timeline"></textarea>
+            </div>
             <button type="submit">Submit Interest</button>
         </form>
     </template>
 
     <footer>
-        <p>© 2025 Modulare. All Rights Reserved.</p>
-        <div class="social-icons">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Twitter">🐦</a>
-            <a href="#" aria-label="LinkedIn">💼</a>
+        <div class="container">
+            <p>© <span id="current-year">2025</span> Modulare. Crafted with Passion. All Rights Reserved.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook" title="Modulare on Facebook">FB</a> <!-- Placeholder for actual icon -->
+                <a href="#" aria-label="Twitter" title="Modulare on Twitter">TW</a>
+                <a href="#" aria-label="LinkedIn" title="Modulare on LinkedIn">IN</a>
+            </div>
         </div>
     </footer>
 
     <!-- JavaScript -->
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    // Only prevent default if it's a page anchor, not a modal trigger
+                    if (href.startsWith('#') && document.querySelector(href)) {
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
-        });
 
-        // Modal functionality
-        const modal = document.getElementById('form-modal');
-        const modalContent = document.getElementById('modal-content');
-        const ctaButtons = document.querySelectorAll('.cta-button[data-modal]');
-        const closeModal = document.querySelector('.close-modal');
+            // Modal functionality
+            const modal = document.getElementById('form-modal');
+            const modalContentDynamic = document.getElementById('modal-content-dynamic');
+            const ctaButtons = document.querySelectorAll('.cta-button[data-modal]');
+            const closeModalButton = modal.querySelector('.close-modal');
 
-        ctaButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const type = button.getAttribute('data-modal');
+            function openModal(type) {
                 const template = document.getElementById(`${type}-form`);
-                modalContent.innerHTML = template.innerHTML;
-                modal.style.display = 'flex';
-            });
-        });
-
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
+                if (template) {
+                    modalContentDynamic.innerHTML = template.innerHTML;
+                    modal.classList.add('active');
+                    // Focus first focusable element in modal
+                    const firstFocusable = modalContentDynamic.querySelector('input, select, textarea, button');
+                    if (firstFocusable) firstFocusable.focus();
+                } else {
+                    console.error('Modal template not found for type:', type);
+                }
             }
-        });
 
-        // Form submission (placeholder for Google Sheets integration)
-        modalContent.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Form submitted! In a production environment, this data would be sent to a Google Sheet.');
-            modal.style.display = 'none';
+            function closeModal() {
+                modal.classList.remove('active');
+                modalContentDynamic.innerHTML = ''; // Clear content
+            }
+
+            ctaButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent navigating to # if it's also an anchor
+                    const type = button.getAttribute('data-modal');
+                    openModal(type);
+                });
+            });
+
+            closeModalButton.addEventListener('click', closeModal);
+            closeModalButton.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') closeModal();
+            });
+
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) { // Click on overlay
+                    closeModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+
+            // Form submission (placeholder for Google Sheets integration)
+            modalContentDynamic.addEventListener('submit', (e) => {
+                if (e.target.tagName === 'FORM') { // Ensure it's a form submission
+                    e.preventDefault();
+                    // Basic validation example (check for required fields)
+                    const form = e.target;
+                    let isValid = true;
+                    form.querySelectorAll('[required]').forEach(input => {
+                        if (!input.value.trim()) {
+                            isValid = false;
+                            input.style.borderColor = 'red'; // Highlight empty required fields
+                        } else {
+                            input.style.borderColor = ''; // Reset border color
+                        }
+                    });
+
+                    if (isValid) {
+                        alert('Form submitted! In a production environment, this data would be sent to a Google Sheet or backend.');
+                        closeModal();
+                        form.reset(); // Reset form fields
+                    } else {
+                        alert('Please fill in all required fields.');
+                    }
+                }
+            });
+
+            // Update current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Simple Intersection Observer for scroll animations
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Optional: stop observing once visible
+                    }
+                });
+            }, { threshold: 0.1 }); // Adjust threshold as needed
+
+            animatedElements.forEach(el => observer.observe(el));
         });
     </script>
 </body>
