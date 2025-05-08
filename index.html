@@ -135,14 +135,37 @@
             <div id="modal-dynamic-content"></div>
         </div>
     </div>
+
     <template id="landowner-form-template">
         <h2 id="modal-title-element">Landowner Interest Form</h2>
-        <form><input type="hidden" name="formType" value="landowner"><label for="landowner-name">Full Name</label><input type="text" id="landowner-name" name="name" required placeholder="John Doe"><label for="landowner-email">Email Address</label><input type="email" id="landowner-email" name="email" required placeholder="john@example.com"><label for="landowner-land-size">Land Size (acres)</label><input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0"><label for="landowner-location">Location (County)</label><input type="text" id="landowner-location" name="location" placeholder="Co. Meath"><label for="landowner-goals">Development Goals</label><textarea id="landowner-goals" name="goals" placeholder="E.g., Create a sustainable modular community"></textarea><button type="submit">Submit Interest</button></form>
+        <form>
+            <input type="hidden" name="formType" value="landowner">
+            <input type="hidden" name="latitude" id="landowner-latitude">
+            <input type="hidden" name="longitude" id="landowner-longitude">
+            <label for="landowner-name">Full Name</label><input type="text" id="landowner-name" name="name" required placeholder="John Doe">
+            <label for="landowner-email">Email Address</label><input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
+            <label for="landowner-land-size">Land Size (acres)</label><input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
+            <label for="landowner-location">Location (County)</label><input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
+            <label for="landowner-goals">Development Goals</label><textarea id="landowner-goals" name="goals" placeholder="E.g., Create a sustainable modular community"></textarea>
+            <button type="submit">Submit Interest</button>
+        </form>
     </template>
+
     <template id="buyer-form-template">
         <h2 id="modal-title-element">Buyer Interest Form</h2>
-        <form><input type="hidden" name="formType" value="buyer"><label for="buyer-name">Full Name</label><input type="text" id="buyer-name" name="name" required placeholder="Jane Smith"><label for="buyer-email">Email Address</label><input type="email" id="buyer-email" name="email" required placeholder="jane@example.com"><label for="buyer-budget">Budget (€)</label><input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000"><label for="buyer-type">Interest Type</label><select id="buyer-type" name="type" required><option value="">Select...</option><option value="land">Land Plot Only</option><option value="home">Modular Home + Land</option></select><label for="buyer-preferences">Preferences</label><textarea id="buyer-preferences" name="preferences" placeholder="E.g., Eco-friendly design, 3 bedrooms, solar panels"></textarea><button type="submit">Submit Interest</button></form>
+        <form>
+            <input type="hidden" name="formType" value="buyer">
+            <input type="hidden" name="latitude" id="buyer-latitude">
+            <input type="hidden" name="longitude" id="buyer-longitude">
+            <label for="buyer-name">Full Name</label><input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
+            <label for="buyer-email">Email Address</label><input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
+            <label for="buyer-budget">Budget (€)</label><input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
+            <label for="buyer-type">Interest Type</label><select id="buyer-type" name="type" required><option value="">Select...</option><option value="land">Land Plot Only</option><option value="home">Modular Home + Land</option></select>
+            <label for="buyer-preferences">Preferences</label><textarea id="buyer-preferences" name="preferences" placeholder="E.g., Eco-friendly design, 3 bedrooms, solar panels"></textarea>
+            <button type="submit">Submit Interest</button>
+        </form>
     </template>
+
     <footer>
         <div class="container">
             <p>© <span id="current-year">2025</span> Modular. All Rights Reserved.</p>
@@ -166,12 +189,57 @@
             const closeModalButton = modal.querySelector('.close-modal');
             let previouslyFocusedElement = null;
 
+            // --- NEW FUNCTION TO REQUEST AND SET LOCATION ---
+            function requestAndSetLocation(formElement) {
+                if (!formElement) return;
+
+                const latInput = formElement.querySelector('input[name="latitude"]');
+                const lonInput = formElement.querySelector('input[name="longitude"]');
+
+                if (!latInput || !lonInput) {
+                    console.warn('Latitude/Longitude hidden fields not found in the form.');
+                    return;
+                }
+                // Clear any previous values
+                latInput.value = '';
+                lonInput.value = '';
+
+                if (navigator.geolocation) {
+                    console.log('Requesting geolocation...');
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            latInput.value = position.coords.latitude;
+                            lonInput.value = position.coords.longitude;
+                            console.log('Location captured:', position.coords.latitude, position.coords.longitude);
+                        },
+                        (error) => {
+                            console.warn(`Geolocation error: ${error.message} (Code: ${error.code}). Location data will not be sent.`);
+                        },
+                        {
+                            enableHighAccuracy: false, 
+                            timeout: 10000,         
+                            maximumAge: 60000       
+                        }
+                    );
+                } else {
+                    console.warn('Geolocation is not supported by this browser. Location data will not be sent.');
+                }
+            }
+            // --- END NEW FUNCTION ---
+
             function openModal(type) {
                 previouslyFocusedElement = document.activeElement;
                 const templateId = `${type}-form-template`;
                 const template = document.getElementById(templateId);
                 if (!template) { console.error(`Template not found: ${templateId}`); return; }
+                
                 modalDynamicContent.innerHTML = template.innerHTML;
+                
+                const currentForm = modalDynamicContent.querySelector('form');
+                if (currentForm) {
+                    requestAndSetLocation(currentForm);
+                }
+
                 modal.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
                 const firstFocusableElement = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -183,7 +251,7 @@
             function closeModal() {
                 modal.classList.remove('is-open');
                 document.body.style.overflow = '';
-                modalDynamicContent.innerHTML = '';
+                modalDynamicContent.innerHTML = ''; 
                 if (previouslyFocusedElement) previouslyFocusedElement.focus();
             }
 
@@ -222,10 +290,8 @@
 
                 try {
                     const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
-                    // No need to manually set Content-Type for FormData; browser does it.
-                    
-                    const result = await response.json(); // Try to parse JSON regardless of response.ok for GAS
-                    console.log("Response from script:", result); // Log the actual response
+                    const result = await response.json(); 
+                    console.log("Response from script:", result);
 
                     if (result.status === "success") {
                         alert('Success! Your information has been submitted. Message: ' + (result.message || ''));
