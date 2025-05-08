@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Modular - Premium modular housing solutions for landowners and buyers in Ireland.">
     <title>Modular - Luxury Modular Homes</title>
-  <style>
+    <style>
         /* Minimal CSS Reset */
         *, *::before, *::after {
             margin: 0;
@@ -563,7 +563,7 @@
             <section class="gallery" aria-labelledby="gallery-title">
                 <h2 id="gallery-title">Envision Your Future Home</h2>
                 <div class="gallery-grid">
-                    <div class="gallery-item" tabindex="0"> <!-- Added tabindex for focusability if desired -->
+                    <div class="gallery-item" tabindex="0">
                         <img src="https://lirp.cdn-website.com/699d2b8a/dms3rep/multi/opt/DALL-E+2025-03-10+15.37.33+-+A+serene+residential+setting+featuring+a+modern+modular+home+in+Alabama.+The+home+has+a+sleek+design+with+clean+lines-+large+windows-+and+a+well-maint-1920x1080-8c5466e5-640w.jpg" alt="Modern Modular Home with sleek design and large windows." loading="lazy">
                         <div class="gallery-caption">
                             Sleek modernity: Clean lines and large windows for a serene, eco-conscious home.
@@ -626,7 +626,8 @@
     <!-- Form Templates -->
     <template id="landowner-form-template">
         <h2 id="modal-title-element">Landowner Interest Form</h2>
-        <form action="#" method="post">
+        <form>
+            <input type="hidden" name="formType" value="landowner">
             <label for="landowner-name">Full Name</label>
             <input type="text" id="landowner-name" name="name" required placeholder="John Doe">
 
@@ -647,7 +648,8 @@
 
     <template id="buyer-form-template">
         <h2 id="modal-title-element">Buyer Interest Form</h2>
-        <form action="#" method="post">
+        <form>
+            <input type="hidden" name="formType" value="buyer">
             <label for="buyer-name">Full Name</label>
             <input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
 
@@ -682,25 +684,13 @@
     </footer>
 
     <script>
+        //  IMPORTANT: REPLACE THIS WITH YOUR ACTUAL DEPLOYED GOOGLE APPS SCRIPT URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_DEPLOYED_WEB_APP_URL_HERE';
+        //  -------------------------------------------------------------------------
+
         document.addEventListener('DOMContentLoaded', () => {
             // Dynamic Year for Footer
             document.getElementById('current-year').textContent = new Date().getFullYear();
-
-            // Smooth scrolling for anchor links (optional, as CTAs now primarily open modals)
-            // document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            //     if (anchor.getAttribute('href') !== "#" && !anchor.dataset.modal) { // Avoid interfering with modal triggers
-            //         anchor.addEventListener('click', function(e) {
-            //             e.preventDefault();
-            //             const targetId = this.getAttribute('href');
-            //             const targetElement = document.querySelector(targetId);
-            //             if (targetElement) {
-            //                 targetElement.scrollIntoView({
-            //                     behavior: 'smooth'
-            //                 });
-            //             }
-            //         });
-            //     }
-            // });
 
             // Modal functionality
             const modal = document.getElementById('form-modal');
@@ -710,7 +700,7 @@
             let previouslyFocusedElement = null;
 
             function openModal(type) {
-                previouslyFocusedElement = document.activeElement; // Store focus
+                previouslyFocusedElement = document.activeElement;
 
                 const templateId = `${type}-form-template`;
                 const template = document.getElementById(templateId);
@@ -720,15 +710,13 @@
                 }
                 modalDynamicContent.innerHTML = template.innerHTML;
                 modal.classList.add('is-open');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
 
-                // Focus on the first focusable element in the modal
                 const firstFocusableElement = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
                 if (firstFocusableElement) {
                     firstFocusableElement.focus();
                 }
 
-                // Update aria-labelledby for the modal
                 const modalTitle = modalDynamicContent.querySelector('h2');
                 if (modalTitle && modalTitle.id) {
                     modal.setAttribute('aria-labelledby', modalTitle.id);
@@ -738,16 +726,16 @@
             function closeModal() {
                 modal.classList.remove('is-open');
                 document.body.style.overflow = '';
-                modalDynamicContent.innerHTML = ''; // Clear content
+                modalDynamicContent.innerHTML = '';
 
                 if (previouslyFocusedElement) {
-                    previouslyFocusedElement.focus(); // Restore focus
+                    previouslyFocusedElement.focus();
                 }
             }
 
             ctaButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent default anchor behavior
+                    e.preventDefault();
                     const type = button.getAttribute('data-modal');
                     openModal(type);
                 });
@@ -755,21 +743,18 @@
 
             closeModalButton.addEventListener('click', closeModal);
 
-            // Close modal on clicking the overlay
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     closeModal();
                 }
             });
 
-            // Close modal with Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && modal.classList.contains('is-open')) {
                     closeModal();
                 }
             });
 
-            // Focus trapping (basic implementation)
             modal.addEventListener('keydown', (e) => {
                 if (e.key !== 'Tab' || !modal.classList.contains('is-open')) {
                     return;
@@ -777,19 +762,19 @@
 
                 const focusableElements = Array.from(
                     modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-                ).filter(el => el.offsetParent !== null); // Only visible, focusable elements
+                ).filter(el => el.offsetParent !== null);
 
                 if (focusableElements.length === 0) return;
 
                 const firstElement = focusableElements[0];
                 const lastElement = focusableElements[focusableElements.length - 1];
 
-                if (e.shiftKey) { // Shift + Tab
+                if (e.shiftKey) {
                     if (document.activeElement === firstElement) {
                         lastElement.focus();
                         e.preventDefault();
                     }
-                } else { // Tab
+                } else {
                     if (document.activeElement === lastElement) {
                         firstElement.focus();
                         e.preventDefault();
@@ -797,17 +782,49 @@
                 }
             });
 
-            // Form submission (placeholder)
-            modalDynamicContent.addEventListener('submit', (e) => {
+            // Form submission
+            modalDynamicContent.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                // In a real application, you'd collect form data:
-                // const formData = new FormData(e.target);
-                // const data = Object.fromEntries(formData.entries());
-                // console.log('Form data:', data);
+                const form = e.target;
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.textContent;
 
-                alert('Form submitted! In a production environment, this data would be sent to a server or service.');
-                closeModal();
-                e.target.reset(); // Reset the form fields
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+
+                const formData = new FormData(form);
+
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_DEPLOYED_WEB_APP_URL_HERE') {
+                    console.error("Google Script URL is not set. Please update the GOOGLE_SCRIPT_URL constant in the script.");
+                    alert("Configuration error: Submission URL is not set. Please contact the site administrator.");
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                    return;
+                }
+
+                try {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        alert('Success! Your information has been submitted.');
+                        form.reset();
+                        closeModal();
+                    } else {
+                        console.error('Submission error from script:', result.message);
+                        alert('Error: ' + (result.message || 'Could not submit form. Please try again.'));
+                    }
+                } catch (error) {
+                    console.error('Network or fetch error:', error);
+                    alert('An error occurred while submitting the form. Please check your internet connection and try again. Details: ' + error.message);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }
             });
         });
     </script>
