@@ -146,6 +146,8 @@
             <label for="landowner-email">Email Address</label><input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
             <label for="landowner-land-size">Land Size (acres)</label><input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
             <label for="landowner-location">Location (County)</label><input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
+            <!-- NEW FIELD ADDED -->
+            <label for="landowner-location-detail">Specific Location Description</label><input type="text" id="landowner-location-detail" name="location_detail" placeholder="E.g., Near town center, specific address if comfortable">
             <label for="landowner-goals">Development Goals</label><textarea id="landowner-goals" name="goals" placeholder="E.g., Create a sustainable modular community"></textarea>
             <button type="submit">Submit Interest</button>
         </form>
@@ -161,6 +163,9 @@
             <label for="buyer-email">Email Address</label><input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
             <label for="buyer-budget">Budget (€)</label><input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
             <label for="buyer-type">Interest Type</label><select id="buyer-type" name="type" required><option value="">Select...</option><option value="land">Land Plot Only</option><option value="home">Modular Home + Land</option></select>
+            <label for="buyer-location">Target Location/County</label><input type="text" id="buyer-location" name="location" placeholder="Co. Cork">
+            <!-- NEW FIELD ADDED -->
+            <label for="buyer-location-detail">Specific Preferred Location Description</label><input type="text" id="buyer-location-detail" name="location_detail" placeholder="E.g., Rural setting, close to amenities">
             <label for="buyer-preferences">Preferences</label><textarea id="buyer-preferences" name="preferences" placeholder="E.g., Eco-friendly design, 3 bedrooms, solar panels"></textarea>
             <button type="submit">Submit Interest</button>
         </form>
@@ -177,9 +182,7 @@
         </div>
     </footer>
     <script>
-        //  IMPORTANT: REPLACE THIS WITH THE *NEW* DEPLOYED GOOGLE APPS SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJjy8qLnRnhQ2HFPPIB5NHv6XmgEx2CHh2iP-2_VezBWDctlnO6Owf9wyIQh_htzpDGg/exec';
-        //  -------------------------------------------------------------------------
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRaCBwqwq2YmgHFbZ42eoAPDAKvUsoXkvNlPgtTfcixfkGEtSvfSrzH41M6jDQFLpEvw/exec';
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -189,7 +192,6 @@
             const closeModalButton = modal.querySelector('.close-modal');
             let previouslyFocusedElement = null;
 
-            // --- NEW FUNCTION TO REQUEST AND SET LOCATION ---
             function requestAndSetLocation(formElement) {
                 if (!formElement) return;
 
@@ -200,7 +202,6 @@
                     console.warn('Latitude/Longitude hidden fields not found in the form.');
                     return;
                 }
-                // Clear any previous values
                 latInput.value = '';
                 lonInput.value = '';
 
@@ -214,6 +215,8 @@
                         },
                         (error) => {
                             console.warn(`Geolocation error: ${error.message} (Code: ${error.code}). Location data will not be sent.`);
+                            // Optionally inform user that location couldn't be fetched
+                            // but still allow form submission without it.
                         },
                         {
                             enableHighAccuracy: false, 
@@ -225,7 +228,6 @@
                     console.warn('Geolocation is not supported by this browser. Location data will not be sent.');
                 }
             }
-            // --- END NEW FUNCTION ---
 
             function openModal(type) {
                 previouslyFocusedElement = document.activeElement;
@@ -237,7 +239,7 @@
                 
                 const currentForm = modalDynamicContent.querySelector('form');
                 if (currentForm) {
-                    requestAndSetLocation(currentForm);
+                    requestAndSetLocation(currentForm); // Request location when form is loaded into modal
                 }
 
                 modal.classList.add('is-open');
@@ -282,8 +284,9 @@
                 submitButton.textContent = 'Submitting...';
                 const formData = new FormData(form);
 
-                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_NEW_WEB_APP_URL_FROM_DEPLOYMENT_STEP_ABOVE_GOES_HERE' || GOOGLE_SCRIPT_URL === 'YOUR_DEPLOYED_WEB_APP_URL_HERE') {
-                    console.error("Google Script URL is not set. Please update the GOOGLE_SCRIPT_URL constant.");
+                // Check for placeholder URL (already handled by direct assignment)
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) { // A more generic check
+                    console.error("Google Script URL is not set correctly. Please update the GOOGLE_SCRIPT_URL constant.");
                     alert("Configuration error: Submission URL is not set. Please contact the site administrator.");
                     submitButton.disabled = false; submitButton.textContent = originalButtonText; return;
                 }
@@ -294,7 +297,7 @@
                     console.log("Response from script:", result);
 
                     if (result.status === "success") {
-                        alert('Success! Your information has been submitted. Message: ' + (result.message || ''));
+                        alert('Success! Your information has been submitted. ' + (result.message || ''));
                         form.reset(); closeModal();
                     } else {
                         console.error('Submission error from script:', result.message || 'Unknown error from script.');
