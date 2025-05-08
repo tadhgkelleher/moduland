@@ -20,111 +20,409 @@
             --highlight: linear-gradient(135deg, #F5E8C7 0%, #E8D9A8 100%);
             --light-bg: linear-gradient(180deg, #F9F9F9 0%, #EDEDED 100%);
             --white: #FFFFFF; --text: #333333; --text-light: #666666;
-            --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --border-light: #D9D9D9; --transition: all 0.3s ease-in-out;
-            --border-radius-md: 8px; --border-radius-lg: 12px;
-            --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
-            --cta-hover: linear-gradient(135deg, #4A7BA3 0%, #E8D9A8 100%);
-            --modal-bg: linear-gradient(135deg, #F9F9F9 0%, #E8ECEF 100%);
+            
+            --text-primary-dark: #1A2F27;
+            --text-primary-light: #2E4A3D;
+            --accent-color-start: #6B9AC4;
+            --accent-color-end: #4A7BA3;
+
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softened */
+            --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12); /* Softened */
+            
+            --border-light: #D9D9D9;
+            --card-border-color: #E0E0E0; /* New for subtle card borders */
+            
+            --transition: all 0.3s ease-in-out;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            
+            --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.7) 100%); /* Adjusted for caption */
+            --cta-hover: linear-gradient(135deg, #5A8BB3 0%, #E0D0A0 100%); /* Slightly adjusted cta hover */
+            --modal-bg: linear-gradient(135deg, #FFFFFF 0%, #F0F2F5 100%); /* Slightly brighter modal */
+
+            --section-padding-y: 4rem; /* Consistent vertical padding */
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.7; background: var(--light-bg); color: var(--text); overflow-x: hidden; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            line-height: 1.7; 
+            background: var(--light-bg); 
+            color: var(--text); 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
-        :focus-visible { outline: 3px solid #4A7BA3; outline-offset: 2px; }
-        header { background: var(--primary); color: var(--white); padding: 2rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow); }
-        header h1 { font-size: 2.6rem; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 1.5px; background: var(--highlight); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        header p { font-size: 1.1rem; opacity: 0.9; text-align: center; margin-top: 0.25rem; }
-        main { padding-top: 1rem; }
-        .hero { background: linear-gradient(135deg, #FFFFFF 0%, #E8ECEF 100%); padding: 3.5rem 2rem; text-align: center; margin: 2rem 0; border-radius: var(--border-radius-lg); box-shadow: var(--shadow); animation: fadeIn 1s ease-out; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top left, rgba(107,154,196,0.2), transparent 70%); z-index: 0; }
+        :focus-visible { outline: 3px solid var(--accent-color-end); outline-offset: 3px; }
+        
+        /* Headings */
+        h1, h2, h3 { font-weight: 700; }
+        .clipped-text { background-clip: text; -webkit-background-clip: text; text-fill-color: transparent; -webkit-text-fill-color: transparent; }
+
+        header { 
+            background: var(--primary); 
+            color: var(--white); 
+            padding: 2.5rem 0; /* Increased padding */
+            position: sticky; top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Standard shadow */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle definition */
+        }
+        header h1 { 
+            font-size: 2.8rem; /* Slightly larger */
+            text-align: center; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; /* Increased spacing */
+            background: var(--highlight); 
+            font-weight: 800;
+        }
+        header p { font-size: 1.1rem; opacity: 0.9; text-align: center; margin-top: 0.5rem; }
+        
+        main { padding-top: var(--section-padding-y); } /* Consistent top padding */
+        
+        section h2:not(#hero-title):not(#modal-title-element) { /* General section titles, excluding hero and modal */
+            font-size: 2.2rem;
+            background: var(--primary);
+            margin-bottom: 2.5rem; /* Increased spacing */
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .hero { 
+            background: linear-gradient(135deg, var(--white) 0%, #E8ECEF 100%); 
+            padding: var(--section-padding-y) 2rem; 
+            text-align: center; 
+            margin-bottom: var(--section-padding-y); 
+            border-radius: var(--border-radius-lg); 
+            box-shadow: var(--shadow); 
+            animation: fadeIn 1s ease-out; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .hero::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(107,154,196,0.15), transparent 70%); /* Softer, wider glow */
+            z-index: 0; 
+        }
         .hero h2, .hero p { position: relative; z-index: 1; }
-        .hero h2 { font-size: 2.4rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.25rem; }
-        .hero p { font-size: 1.15rem; max-width: 750px; margin: 0 auto; color: var(--text-light); }
-        .gallery { padding: 3.5rem 0; text-align: center; background: var(--light-bg); }
-        .gallery h2 { font-size: 2.1rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 2rem; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .gallery-item { position: relative; overflow: hidden; border-radius: var(--border-radius-lg); box-shadow: var(--shadow); transition: transform var(--transition), box-shadow var(--transition); background: var(--light-bg); }
-        .gallery-item:hover, .gallery-item:focus-within { transform: scale(1.03); box-shadow: var(--shadow-hover); }
-        .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; transition: transform var(--transition); }
-        .gallery-item:hover img { transform: scale(1.05); }
-        .gallery-caption { position: absolute; bottom: 0; left: 0; right: 0; background: var(--gradient-overlay); color: var(--white); padding: 0.8rem 1rem; font-size: 0.9rem; transform: translateY(100%); transition: transform var(--transition); }
+        #hero-title { /* Specific styling for Hero H2 */
+            font-size: 2.6rem; 
+            background: var(--primary); 
+            margin-bottom: 1.5rem; 
+        }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--text-light); }
+        
+        .gallery { padding: var(--section-padding-y) 0; text-align: center; }
+        /* Gallery H2 uses general section H2 styles */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+        .gallery-item { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: var(--border-radius-lg); 
+            box-shadow: var(--shadow); 
+            transition: transform var(--transition), box-shadow var(--transition); 
+            background: var(--white); 
+            border: 1px solid var(--card-border-color); /* Subtle border */
+        }
+        .gallery-item:hover, .gallery-item:focus-within { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-hover); }
+        .gallery-item img { width: 100%; height: 260px; object-fit: cover; display: block; transition: transform 0.4s ease-out; }
+        .gallery-item:hover img, .gallery-item:focus-within img { transform: scale(1.1); }
+        .gallery-caption { 
+            position: absolute; 
+            bottom: 0; left: 0; right: 0; 
+            background: rgba(26, 47, 39, 0.92); /* Darker, primary based translucent */
+            color: var(--white); 
+            padding: 1rem 1.2rem; 
+            font-size: 0.95rem; 
+            transform: translateY(100%); 
+            transition: transform var(--transition); 
+            text-align: left;
+        }
         .gallery-item:hover .gallery-caption, .gallery-item:focus-within .gallery-caption { transform: translateY(0); }
-        .cta-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2.5rem 0; }
-        .cta-section { background: linear-gradient(135deg, #FFFFFF 0%, #E8ECEF 100%); padding: 2.25rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow); text-align: center; transition: transform var(--transition), box-shadow var(--transition); position: relative; overflow: hidden; }
-        .cta-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at bottom right, rgba(245,232,199,0.2), transparent 70%); z-index: 0; transition: opacity var(--transition); opacity: 0; }
+        
+        .cta-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; margin: var(--section-padding-y) 0; }
+        .cta-section { 
+            background: linear-gradient(135deg, var(--white) 0%, #F0F2F5 100%); 
+            padding: 2.5rem; 
+            border-radius: var(--border-radius-lg); 
+            box-shadow: var(--shadow); 
+            text-align: center; 
+            transition: transform var(--transition), box-shadow var(--transition); 
+            position: relative; 
+            overflow: hidden; 
+            border: 1px solid var(--card-border-color); /* Subtle border */
+        }
+        .cta-section::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: radial-gradient(circle at bottom right, rgba(245,232,199,0.35), transparent 60%); /* Softer glow */
+            z-index: 0; 
+            transition: opacity var(--transition); 
+            opacity: 0; 
+        }
         .cta-section:hover::before { opacity: 1; }
-        .cta-section:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+        .cta-section:hover { transform: translateY(-12px); box-shadow: var(--shadow-hover); }
         .cta-section h2, .cta-section p, .cta-button { position: relative; z-index: 1; }
-        .cta-section h2 { font-size: 1.9rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
-        .cta-section p { font-size: 1.05rem; color: var(--text-light); margin-bottom: 1.5rem; }
-        .cta-button { display: inline-block; background: var(--accent); color: var(--white); padding: 0.8rem 1.8rem; text-decoration: none; border-radius: 50px; font-weight: 600; transition: background var(--transition), transform var(--transition); border: 2px solid transparent; }
-        .cta-button:hover, .cta-button:focus-visible { background: var(--cta-hover); transform: scale(1.05); border-color: #1A2F27; }
-        .how-it-works { background: linear-gradient(135deg, #FFFFFF 0%, #E8ECEF 100%); padding: 3.5rem 2rem; margin: 2.5rem 0; border-radius: var(--border-radius-lg); text-align: center; box-shadow: var(--shadow); }
-        .how-it-works h2 { font-size: 2.1rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.75rem; }
-        .how-it-works ol { list-style-position: inside; padding-left: 0; max-width: 600px; margin: 0 auto; }
-        .how-it-works li { font-size: 1.1rem; color: var(--text-light); margin: 0.7rem 0; text-align: left; transition: color var(--transition); }
-        .how-it-works li:hover { color: #2E4A3D; }
-        .how-it-works li::marker { color: #2E4A3D; font-weight: bold; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(26,47,39,0.8) 100%); align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease-in-out; padding: 20px; }
+        .cta-section h2 { font-size: 2rem; background: var(--primary); margin-bottom: 1.2rem; }
+        .cta-section p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 1.75rem; }
+        .cta-button { 
+            display: inline-block; 
+            background: var(--accent); 
+            color: var(--white); 
+            padding: 0.9rem 2rem; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            transition: background var(--transition), transform var(--transition), border-color var(--transition); 
+            border: 2px solid transparent;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Added depth */
+        }
+        .cta-button:hover, .cta-button:focus-visible { 
+            background: var(--cta-hover); 
+            transform: scale(1.05) translateY(-2px); 
+            border-color: var(--text-primary-dark); 
+            color: var(--text-primary-dark); /* Text color change on hover */
+        }
+        
+        .how-it-works { 
+            background: linear-gradient(135deg, var(--white) 0%, #E8ECEF 100%); 
+            padding: var(--section-padding-y) 2rem; 
+            margin: var(--section-padding-y) 0; 
+            border-radius: var(--border-radius-lg); 
+            text-align: center; 
+            box-shadow: var(--shadow); 
+        }
+        /* How It Works H2 uses general section H2 styles */
+        .how-it-works ol { 
+            list-style: none; 
+            padding-left: 0; 
+            max-width: 650px; 
+            margin: 0 auto; 
+            counter-reset: process-counter;
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem; /* Spacing between items */
+        }
+        .how-it-works li { 
+            font-size: 1.15rem; 
+            color: var(--text-light); 
+            text-align: left; 
+            transition: color var(--transition), background-color var(--transition);
+            position: relative;
+            padding-left: 3rem; /* Space for custom number */
+            padding-top: 0.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed var(--border-light);
+            min-height: 40px; /* Ensure consistent height with number */
+        }
+        .how-it-works li:last-child { border-bottom: none; }
+        .how-it-works li::before { /* Custom styled number */
+            counter-increment: process-counter;
+            content: counter(process-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent);
+            color: var(--white);
+            width: 2.2rem; /* Larger */
+            height: 2.2rem; /* Larger */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .how-it-works li:hover { 
+            color: var(--text-primary-light); 
+            /* Optional: background-color: rgba(46, 74, 61, 0.03); border-radius: var(--border-radius-md); */
+        }
+        
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(26,47,39,0.85) 100%); 
+            align-items: center; justify-content: center; 
+            z-index: 2000; 
+            opacity: 0; 
+            transition: opacity 0.3s ease-in-out; 
+            padding: 20px; 
+        }
         .modal.is-open { display: flex; opacity: 1; }
-        .modal-content-wrapper { background: var(--modal-bg); padding: 2.5rem; border-radius: var(--border-radius-lg); max-width: 550px; width: 100%; text-align: center; position: relative; box-shadow: var(--shadow-hover); transform: scale(0.95); transition: transform 0.3s ease-in-out; }
+        .modal-content-wrapper { 
+            background: var(--modal-bg); 
+            padding: 2.5rem 2rem; /* Adjusted padding */
+            border-radius: var(--border-radius-lg); 
+            max-width: 600px; /* Slightly wider */
+            width: 100%; 
+            text-align: center; 
+            position: relative; 
+            box-shadow: var(--shadow-hover); 
+            transform: scale(0.95); 
+            transition: transform 0.3s ease-in-out; 
+        }
         .modal.is-open .modal-content-wrapper { transform: scale(1); }
-        .modal-content-wrapper h2 { font-size: 1.9rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.25rem; }
-        .modal-content-wrapper form { display: flex; flex-direction: column; gap: 1rem; }
-        .modal-content-wrapper label { text-align: left; font-size: 0.9rem; color: #2E4A3D; font-weight: 600; margin-bottom: -0.5rem; }
-        .modal-content-wrapper input, .modal-content-wrapper select, .modal-content-wrapper textarea { padding: 0.8rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-md); font-size: 1rem; width: 100%; background: linear-gradient(180deg, #FFFFFF 0%, #E8ECEF 100%); transition: border-color var(--transition); }
-        .modal-content-wrapper input:focus-visible, .modal-content-wrapper select:focus-visible, .modal-content-wrapper textarea:focus-visible { border-color: #4A7BA3; outline: none; }
-        .modal-content-wrapper textarea { resize: vertical; min-height: 100px; }
-        .modal-content-wrapper button[type="submit"] { background: var(--accent); color: var(--white); padding: 0.9rem; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; transition: background var(--transition), transform var(--transition); }
-        .modal-content-wrapper button[type="submit"]:hover, .modal-content-wrapper button[type="submit"]:focus-visible { background: var(--cta-hover); transform: translateY(-2px); }
-        .modal-content-wrapper button[type="submit"]:disabled { background-color: #ccc; cursor: not-allowed; }
-        .close-modal { position: absolute; top: 12px; right: 15px; font-size: 2rem; font-weight: bold; line-height: 1; cursor: pointer; color: var(--text-light); background: none; border: none; padding: 0.25rem; }
-        .close-modal:hover, .close-modal:focus-visible { color: #2E4A3D; }
-        footer { background: var(--primary); color: var(--white); padding: 2rem 1rem; text-align: center; margin-top: 3rem; position: relative; }
-        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(107,154,196,0.3), transparent 70%); z-index: 0; }
+        #modal-title-element { /* Specific for modal title */
+            font-size: 2rem; 
+            background: var(--primary); 
+            margin-bottom: 1.5rem; 
+        }
+        .modal-content-wrapper form { display: flex; flex-direction: column; gap: 1.25rem; }
+        .modal-content-wrapper label { text-align: left; font-size: 0.95rem; color: var(--text-primary-light); font-weight: 600; margin-bottom: -0.6rem; }
+        .modal-content-wrapper input, .modal-content-wrapper select, .modal-content-wrapper textarea { 
+            padding: 0.9rem; 
+            border: 1px solid var(--border-light); 
+            border-radius: var(--border-radius-md); 
+            font-size: 1rem; 
+            width: 100%; 
+            background: var(--white); /* Cleaner background */
+            transition: border-color var(--transition), box-shadow var(--transition); 
+        }
+        .modal-content-wrapper input:focus-visible, 
+        .modal-content-wrapper select:focus-visible, 
+        .modal-content-wrapper textarea:focus-visible { 
+            border-color: var(--accent-color-end); /* Use solid accent color */
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(74, 123, 163, 0.2); /* Subtle focus ring */
+        }
+        .modal-content-wrapper textarea { resize: vertical; min-height: 120px; }
+        .modal-content-wrapper button[type="submit"] { 
+            background: var(--accent); 
+            color: var(--white); 
+            padding: 1rem; 
+            border: none; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background var(--transition), transform var(--transition); 
+            margin-top: 0.5rem;
+        }
+        .modal-content-wrapper button[type="submit"]:hover, 
+        .modal-content-wrapper button[type="submit"]:focus-visible { 
+            background: var(--cta-hover); 
+            transform: translateY(-3px);
+            color: var(--text-primary-dark);
+        }
+        .modal-content-wrapper button[type="submit"]:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+        .close-modal { 
+            position: absolute; 
+            top: 15px; right: 15px; 
+            font-size: 1.8rem; /* Adjusted size */
+            font-weight: bold; 
+            line-height: 1; 
+            cursor: pointer; 
+            color: var(--text-light); 
+            background: none; 
+            border: none; 
+            padding: 0;
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            transition: color var(--transition), background-color var(--transition);
+        }
+        .close-modal:hover, .close-modal:focus-visible { 
+            color: var(--text-primary-dark); 
+            background-color: rgba(0,0,0,0.08);
+        }
+        
+        footer { 
+            background: var(--primary); 
+            color: var(--white); 
+            padding: var(--section-padding-y) 1rem; /* Increased padding */
+            text-align: center; 
+            margin-top: var(--section-padding-y); 
+            position: relative; 
+        }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(107,154,196,0.2), transparent 70%); z-index: 0; }
         footer p, .social-icons { position: relative; z-index: 1; }
-        footer p { margin: 0 0 0.8rem 0; font-size: 0.9rem; }
-        .social-icons { margin-top: 1rem; }
-        .social-icons a { color: var(--white); font-size: 1.5rem; margin: 0 0.7rem; text-decoration: none; transition: var(--transition); display: inline-block; }
-        .social-icons a:hover, .social-icons a:focus-visible { background: var(--highlight); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transform: scale(1.2); }
+        footer p { margin: 0 0 1rem 0; font-size: 0.95rem; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        .social-icons { margin-top: 1.2rem; }
+        .social-icons a { 
+            color: var(--white); 
+            font-size: 1.6rem; 
+            margin: 0 0.8rem; 
+            text-decoration: none; 
+            transition: var(--transition); 
+            display: inline-block; 
+            padding: 0.25rem;
+        }
+        .social-icons a:hover, .social-icons a:focus-visible { 
+            background: var(--highlight); 
+            -webkit-background-clip: text; text-fill-color: transparent; -webkit-text-fill-color: transparent;
+            transform: scale(1.25) translateY(-2px); 
+        }
         
         /* Map specific styles */
-        #map-container { padding: 2.5rem 0; text-align: center; }
-        #map-container h2 { font-size: 2.1rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.75rem; }
-        #map { height: 500px; width: 100%; border-radius: var(--border-radius-lg); box-shadow: var(--shadow); margin: 0 auto; max-width: 1000px; }
+        #map-container { padding: var(--section-padding-y) 0; text-align: center; }
+        /* Map H2 uses general section H2 styles */
+        #map { height: 500px; width: 100%; border-radius: var(--border-radius-lg); box-shadow: var(--shadow); margin: 0 auto; max-width: 1000px; border: 1px solid var(--card-border-color); }
+        
         /* Leaflet popup styling */
-        .leaflet-popup-content-wrapper { background: var(--modal-bg); color: var(--text); border-radius: var(--border-radius-md); box-shadow: var(--shadow); }
-        .leaflet-popup-content { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; font-size: 0.9rem; }
-        .leaflet-popup-content strong { color: #2E4A3D; font-size: 1rem; }
+        .leaflet-popup-content-wrapper { background: var(--modal-bg); color: var(--text); border-radius: var(--border-radius-md); box-shadow: var(--shadow); border: 1px solid var(--border-light); }
+        .leaflet-popup-content { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; font-size: 0.95rem; padding: 0.5rem; }
+        .leaflet-popup-content strong { color: var(--text-primary-light); font-size: 1.05rem; display: block; margin-bottom: 0.25rem;}
         .leaflet-popup-tip { background: var(--modal-bg); }
-        .leaflet-container a.leaflet-popup-close-button { color: var(--text-light); font-size: 1.5rem; padding: 4px 4px 0 0; }
-        .leaflet-container a.leaflet-popup-close-button:hover { color: #2E4A3D; }
+        .leaflet-container a.leaflet-popup-close-button { color: var(--text-light); font-size: 1.6rem; padding: 6px 6px 0 0; }
+        .leaflet-container a.leaflet-popup-close-button:hover, .leaflet-container a.leaflet-popup-close-button:focus-visible { color: var(--text-primary-dark); background-color: rgba(0,0,0,0.05); border-radius: 50%; }
 
         /* Form map specific styles */
         .form-map-container { height: 220px; width: 100%; margin-bottom: 0.5rem; border-radius: var(--border-radius-md); background-color: #e9e9e9; border: 1px solid var(--border-light); }
-        .form-map-instruction { display: block; margin-top: -0.8rem; margin-bottom: 1rem; font-size: 0.8rem; color: var(--text-light); }
-
+        .form-map-instruction { display: block; margin-top: -0.8rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-light); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { header h1 { font-size: 2rem; } header p { font-size: 1rem; } .hero h2 { font-size: 1.9rem; } .cta-section h2, .gallery h2, .how-it-works h2, #map-container h2 { font-size: 1.7rem; } .cta-sections, .gallery-grid { grid-template-columns: 1fr; } .gallery-item img { height: 220px; } .modal-content-wrapper { padding: 2rem 1.5rem; } }
-        @media (max-width: 480px) { body { line-height: 1.6; } .container { padding: 0 15px; } header { padding: 1.5rem 0; } header h1 { font-size: 1.8rem; } .hero { padding: 2.5rem 1rem; } .hero h2 { font-size: 1.7rem; } .hero p { font-size: 1rem; } .cta-button, .modal-content-wrapper button[type="submit"] { padding: 0.8rem 1.5rem; font-size: 0.95rem; } .modal-content-wrapper h2 { font-size: 1.6rem; } }
+        
+        @media (max-width: 768px) { 
+            :root { --section-padding-y: 3rem; }
+            header h1 { font-size: 2.2rem; letter-spacing: 1.5px; } 
+            header p { font-size: 1rem; } 
+            #hero-title { font-size: 2.1rem; } 
+            .hero p { font-size: 1.1rem; }
+            section h2:not(#hero-title):not(#modal-title-element), .cta-section h2, #modal-title-element { font-size: 1.8rem; } 
+            .cta-sections, .gallery-grid { grid-template-columns: 1fr; gap: 2rem; } 
+            .gallery-item img { height: 240px; } 
+            .modal-content-wrapper { padding: 2rem 1.5rem; max-width: calc(100% - 40px); }
+            .how-it-works li { padding-left: 2.5rem; }
+            .how-it-works li::before { width: 2rem; height: 2rem; font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) { 
+            body { line-height: 1.65; } 
+            .container { padding: 0 15px; } 
+            header { padding: 2rem 0; } 
+            header h1 { font-size: 1.9rem; letter-spacing: 1px; } 
+            .hero { padding: var(--section-padding-y) 1rem; } 
+            #hero-title { font-size: 1.8rem; } 
+            .hero p { font-size: 1rem; } 
+            section h2:not(#hero-title):not(#modal-title-element), .cta-section h2, #modal-title-element { font-size: 1.7rem; } 
+            .cta-button, .modal-content-wrapper button[type="submit"] { padding: 0.8rem 1.6rem; font-size: 0.95rem; } 
+            .gallery-item img { height: 220px; }
+            .modal-content-wrapper { padding: 1.5rem 1rem; }
+            .how-it-works li { font-size: 1.05rem;}
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Modular</h1>
+            <h1 class="clipped-text">Modular</h1>
             <p>Elegant Modular Living for Ireland</p>
         </div>
     </header>
     <main>
         <div class="container">
             <section class="hero" aria-labelledby="hero-title">
-                <h2 id="hero-title">Craft Your Legacy with Bespoke Modular Homes</h2>
+                <h2 id="hero-title" class="clipped-text">Craft Your Legacy with Bespoke Modular Homes</h2>
                 <p>Modular connects landowners and buyers to create sustainable, luxurious living spaces that blend seamlessly with Ireland’s landscapes.</p>
             </section>
             <section class="gallery" aria-labelledby="gallery-title">
-                <h2 id="gallery-title">Envision Your Future Home</h2>
+                <h2 id="gallery-title" class="clipped-text">Envision Your Future Home</h2>
                 <div class="gallery-grid">
                     <div class="gallery-item" tabindex="0"><img src="https://lirp.cdn-website.com/699d2b8a/dms3rep/multi/opt/DALL-E+2025-03-10+15.37.33+-+A+serene+residential+setting+featuring+a+modern+modular+home+in+Alabama.+The+home+has+a+sleek+design+with+clean+lines-+large+windows-+and+a+well-maint-1920x1080-8c5466e5-640w.jpg" alt="Modern Modular Home with sleek design and large windows." loading="lazy"><div class="gallery-caption">Sleek modernity: Clean lines and large windows for a serene, eco-conscious home.</div></div>
                     <div class="gallery-item" tabindex="0"><img src="https://prod.rockmedialibrary.com/api/public/content/20bf155f45fa4aa49bd1be1424f25094?v=4ce3ce1a" alt="Contemporary Modular Home with bespoke design." loading="lazy"><div class="gallery-caption">Contemporary elegance: Bespoke modular design with sustainable craftsmanship.</div></div>
@@ -133,18 +431,18 @@
             </section>
             <div class="cta-sections">
                 <section class="cta-section" id="landowners-cta" aria-labelledby="landowner-title">
-                    <h2 id="landowner-title">Are you Selling Land?</h2>
+                    <h2 id="landowner-title" class="clipped-text">Are you Selling Land?</h2>
                     <p>Transform your land into an exclusive modular community, blending sustainability with unparalleled value.</p>
                     <a href="#landowners-cta" class="cta-button" data-modal="landowner">Offer Your Land</a>
                 </section>
                 <section class="cta-section" id="buyers-cta" aria-labelledby="buyer-title">
-                    <h2 id="buyer-title">Are you Looking to Buy?</h2>
+                    <h2 id="buyer-title" class="clipped-text">Are you Looking to Buy?</h2>
                     <p>Discover bespoke modular homes or prime land plots, designed for elegance and eco-conscious living.</p>
                     <a href="#buyers-cta" class="cta-button" data-modal="buyer">Find Your Dream Home</a>
                 </section>
             </div>
             <section class="how-it-works" aria-labelledby="how-it-works-title">
-                <h2 id="how-it-works-title">Our Process</h2>
+                <h2 id="how-it-works-title" class="clipped-text">Our Process</h2>
                 <ol>
                     <li>Share Your Vision: Complete our tailored interest form.</li>
                     <li>Connect Seamlessly: We match you with curated opportunities.</li>
@@ -154,7 +452,7 @@
 
             <!-- MAP SECTION -->
             <section id="map-container" aria-labelledby="map-title">
-                <h2 id="map-title">Explore Opportunities on the Map</h2>
+                <h2 id="map-title" class="clipped-text">Explore Opportunities on the Map</h2>
                 <div id="map"></div>
             </section>
 
@@ -163,12 +461,14 @@
     <div class="modal" id="form-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-element">
         <div class="modal-content-wrapper">
             <button class="close-modal" aria-label="Close modal" type="button">×</button>
-            <div id="modal-dynamic-content"></div>
+            <div id="modal-dynamic-content">
+                <!-- JS will populate this -->
+            </div>
         </div>
     </div>
 
     <template id="landowner-form-template">
-        <h2 id="modal-title-element">Landowner Interest Form</h2>
+        <h2 id="modal-title-element" class="clipped-text">Landowner Interest Form</h2>
         <form>
             <input type="hidden" name="formType" value="landowner">
             <label for="landowner-name">Full Name</label><input type="text" id="landowner-name" name="name" required placeholder="John Doe">
@@ -189,7 +489,7 @@
     </template>
 
     <template id="buyer-form-template">
-        <h2 id="modal-title-element">Buyer Interest Form</h2>
+        <h2 id="modal-title-element" class="clipped-text">Buyer Interest Form</h2>
         <form>
             <input type="hidden" name="formType" value="buyer">
             <label for="buyer-name">Full Name</label><input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
@@ -227,6 +527,7 @@
         crossorigin=""></script>
 
     <script>
+        // JS unchanged
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwL0NKGu3AnUtkf4Z-GIMkeNnR1vulFq443ZRm5Fi6ZiRRDt45hgOzRXtVAenr51ph6/exec';
         const irelandCenter = [53.4129, -8.2439];
 
@@ -332,7 +633,7 @@
                     return;
                 }
 
-                if (formMapInstance) { // Clean up previous instance if any (should be handled by closeModal mostly)
+                if (formMapInstance) { 
                     try { formMapInstance.remove(); } catch(e) { console.warn("Error removing old formMapInstance", e); }
                     formMapInstance = null; formMapMarker = null;
                 }
@@ -358,7 +659,7 @@
                     });
                 }
                 
-                updateFormLocationFields(formElement, '', ''); // Initialize fields as empty
+                updateFormLocationFields(formElement, '', ''); 
 
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
@@ -375,10 +676,10 @@
                 }
 
                 formMapInstance.on('click', function(e) {
-                    placeMarkerAndUpdate(e.latlng, formMapInstance.getZoom(), false); // Place marker, don't change view zoom/center
+                    placeMarkerAndUpdate(e.latlng, formMapInstance.getZoom(), false); 
                 });
                 
-                setTimeout(() => { // Ensure map renders correctly after modal transition
+                setTimeout(() => { 
                     if (formMapInstance) formMapInstance.invalidateSize();
                 }, 350);
             }
@@ -431,7 +732,7 @@
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
             
-            modal.addEventListener('keydown', (e) => { // Trap focus
+            modal.addEventListener('keydown', (e) => { 
                 if (e.key !== 'Tab' || !modal.classList.contains('is-open')) return;
                 const focusableElements = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => el.offsetParent !== null && !el.disabled);
                 if (focusableElements.length === 0) return;
@@ -452,7 +753,7 @@
                 submitButton.disabled = true; submitButton.textContent = 'Submitting...';
                 
                 const formData = new FormData(form);
-                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) { // Basic check for placeholder URL
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) { 
                     console.error("Google Script URL is not set correctly.");
                     alert("Configuration error: Submission URL is not set.");
                     submitButton.disabled = false; submitButton.textContent = originalButtonText; return;
@@ -463,8 +764,8 @@
                     if (result.status === "success") {
                         alert('Success! Your information has been submitted. ' + (result.message || ''));
                         form.reset(); closeModal();
-                        if (typeof L !== 'undefined' && map) { // Check if main map exists
-                            initializeLeafletMap(); // Refresh main map data
+                        if (typeof L !== 'undefined' && map) { 
+                            initializeLeafletMap(); 
                         }
                     } else {
                         console.error('Submission error from script:', result.message || 'Unknown error from script.');
@@ -481,5 +782,3 @@
     </script>
 </body>
 </html>
-
-
