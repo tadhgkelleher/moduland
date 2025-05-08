@@ -21,17 +21,22 @@
             --light-bg: #FDF9F3; /* Warm Cream */
             --white: #FFFFFF;
             --text: #2F2F2F;
+            --text-light: #555;
             --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --border-light: #ddd;
+            --transition: all 0.3s ease-in-out;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
         }
 
         /* General Styling */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.7; /* Slightly reduced for better scan-ability */
             background-color: var(--light-bg);
             color: var(--text);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Use with caution, fix underlying overflow issues if possible */
         }
 
         .container {
@@ -40,11 +45,17 @@
             padding: 0 20px;
         }
 
+        /* Accessibility: Focus Visible */
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+
         /* Header */
         header {
             background: linear-gradient(135deg, var(--primary), #81531F);
             color: var(--white);
-            padding: 2.5rem 0;
+            padding: 2rem 0; /* Slightly reduced padding */
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -52,78 +63,87 @@
         }
 
         header h1 {
-            font-size: 2.8rem;
+            font-size: 2.6rem; /* Adjusted for balance */
             font-weight: 700;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem; /* Adjusted */
             opacity: 0.9;
             text-align: center;
+            margin-top: 0.25rem;
+        }
+
+        /* Main Content Area */
+        main {
+            padding-top: 1rem; /* Add some space below sticky header */
         }
 
         /* Hero Section */
         .hero {
             background: var(--white);
-            padding: 4rem 2rem;
+            padding: 3.5rem 2rem;
             text-align: center;
-            margin: 3rem 0;
-            border-radius: 12px;
+            margin: 2rem 0; /* Adjusted margin */
+            border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
-            animation: fadeIn 1.2s ease-out;
+            animation: fadeIn 1s ease-out;
         }
 
         .hero h2 {
-            font-size: 2.5rem;
+            font-size: 2.4rem;
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
+            font-size: 1.15rem;
+            max-width: 750px; /* Slightly adjusted */
             margin: 0 auto;
+            color: var(--text-light);
         }
 
         /* Gallery Section */
         .gallery {
-            padding: 4rem 0;
+            padding: 3.5rem 0;
             text-align: center;
         }
 
         .gallery h2 {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             color: var(--primary);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Min width adjusted */
+            gap: 2rem;
         }
 
         .gallery-item {
             position: relative;
             overflow: hidden;
-            border-radius: 12px;
+            border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
-            transition: transform var(--transition);
-            background: #e0e0e0; /* Fallback background if image fails */
+            transition: transform var(--transition), box-shadow var(--transition);
+            background: var(--light-bg); /* Fallback background */
         }
 
-        .gallery-item:hover {
-            transform: scale(1.05);
+        .gallery-item:hover,
+        .gallery-item:focus-within { /* Added focus-within for keyboard nav */
+            transform: scale(1.03);
+            box-shadow: var(--shadow-hover);
         }
 
         .gallery-item img {
             width: 100%;
-            height: auto;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image covers area without distortion */
             display: block;
-            min-height: 200px; /* Ensure visibility */
         }
 
         .gallery-caption {
@@ -131,155 +151,191 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             color: var(--white);
-            padding: 1rem;
-            font-size: 0.95rem;
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
             transform: translateY(100%);
             transition: transform var(--transition);
         }
 
-        .gallery-item:hover .gallery-caption {
+        .gallery-item:hover .gallery-caption,
+        .gallery-item:focus-within .gallery-caption { /* Added focus-within */
             transform: translateY(0);
         }
 
         /* CTA Sections */
         .cta-sections {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
         }
 
         .cta-section {
             background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
+            padding: 2.25rem;
+            border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
             text-align: center;
             transition: transform var(--transition), box-shadow var(--transition);
         }
 
         .cta-section:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
         }
 
         .cta-section h2 {
-            font-size: 2rem;
+            font-size: 1.9rem;
             color: var(--primary);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .cta-section p {
-            font-size: 1.1rem;
-            color: #555;
+            font-size: 1.05rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
         }
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent), var(--gold));
+            background: var(--accent); /* Solid color for base */
             color: var(--white);
-            padding: 0.9rem 2rem;
+            padding: 0.8rem 1.8rem;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
-            margin-top: 1.5rem;
             transition: var(--transition);
+            border: 2px solid transparent;
         }
 
-        .cta-button:hover {
-            background: linear-gradient(135deg, var(--gold), var(--accent));
+        .cta-button:hover,
+        .cta-button:focus-visible {
+            background: var(--gold);
             transform: scale(1.05);
+            border-color: var(--primary); /* Adding focus indication */
         }
 
         /* How It Works */
         .how-it-works {
             background: var(--white);
-            padding: 4rem 2rem;
-            margin: 3rem 0;
-            border-radius: 12px;
+            padding: 3.5rem 2rem;
+            margin: 2.5rem 0;
+            border-radius: var(--border-radius-lg);
             text-align: center;
             box-shadow: var(--shadow);
         }
 
         .how-it-works h2 {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             color: var(--primary);
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
         }
 
         .how-it-works ol {
             list-style-position: inside;
-            font-size: 1.15rem;
-            color: #555;
+            padding-left: 0; /* Reset default padding */
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .how-it-works li {
-            margin: 0.75rem 0;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin: 0.7rem 0;
+            text-align: left; /* Better for readability of list items */
+        }
+        .how-it-works li::marker { /* Style list numbers */
+            color: var(--primary);
+            font-weight: bold;
         }
 
-        /* Forms */
+
+        /* Modal */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay */
             align-items: center;
             justify-content: center;
             z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            padding: 20px; /* Add padding for smaller screens */
         }
 
-        .modal-content {
+        .modal.is-open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content-wrapper { /* Renamed for clarity */
             background: var(--white);
-            padding: 3rem;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 90%;
+            padding: 2.5rem; /* Adjusted padding */
+            border-radius: var(--border-radius-lg);
+            max-width: 550px;
+            width: 100%; /* Responsive width */
             text-align: center;
             position: relative;
+            box-shadow: var(--shadow-hover);
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+        .modal.is-open .modal-content-wrapper {
+            transform: scale(1);
         }
 
-        .modal-content h2 {
-            font-size: 2rem;
+        .modal-content-wrapper h2 {
+            font-size: 1.9rem;
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        .modal-content form {
+        .modal-content-wrapper form {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1rem; /* Adjusted gap */
         }
 
-        .modal-content label {
+        .modal-content-wrapper label {
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--primary);
             font-weight: 600;
+            margin-bottom: -0.5rem; /* Pull closer to input */
         }
 
-        .modal-content input,
-        .modal-content select,
-        .modal-content textarea {
-            padding: 0.9rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+        .modal-content-wrapper input,
+        .modal-content-wrapper select,
+        .modal-content-wrapper textarea {
+            padding: 0.8rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius-md);
             font-size: 1rem;
             width: 100%;
             background: var(--light-bg);
+            transition: border-color var(--transition);
+        }
+        .modal-content-wrapper input:focus-visible,
+        .modal-content-wrapper select:focus-visible,
+        .modal-content-wrapper textarea:focus-visible {
+            border-color: var(--accent);
+            outline: none; /* Custom focus already applied */
         }
 
-        .modal-content textarea {
+
+        .modal-content-wrapper textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 100px;
         }
 
-        .modal-content button {
-            background: linear-gradient(135deg, var(--accent), var(--gold));
+        .modal-content-wrapper button[type="submit"] {
+            background: var(--accent);
             color: var(--white);
             padding: 0.9rem;
             border: none;
@@ -287,89 +343,118 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            margin-top: 0.5rem;
         }
 
-        .modal-content button:hover {
-            background: linear-gradient(135deg, var(--gold), var(--accent));
+        .modal-content-wrapper button[type="submit"]:hover,
+        .modal-content-wrapper button[type="submit"]:focus-visible {
+            background: var(--gold);
+            transform: translateY(-2px);
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.8rem;
+            top: 12px; /* Adjusted */
+            right: 15px; /* Adjusted */
+            font-size: 2rem; /* Larger for easier click */
+            font-weight: bold;
+            line-height: 1;
             cursor: pointer;
-            color: var(--text);
+            color: var(--text-light);
+            background: none;
+            border: none;
+            padding: 0.25rem; /* Easier to click */
         }
+        .close-modal:hover,
+        .close-modal:focus-visible {
+            color: var(--primary);
+        }
+
 
         /* Footer */
         footer {
             background: var(--primary);
             color: var(--white);
-            padding: 2.5rem;
+            padding: 2rem 1rem; /* Adjusted padding */
             text-align: center;
+            margin-top: 3rem; /* Space above footer */
         }
 
         footer p {
-            margin: 0;
-            font-size: 0.95rem;
+            margin: 0 0 0.8rem 0;
+            font-size: 0.9rem;
         }
 
         .social-icons {
-            margin-top: 1.2rem;
+            margin-top: 1rem;
         }
 
         .social-icons a {
             color: var(--white);
-            font-size: 1.6rem;
-            margin: 0 0.6rem;
+            font-size: 1.5rem;
+            margin: 0 0.7rem;
             text-decoration: none;
             transition: var(--transition);
+            display: inline-block; /* For transform */
         }
 
-        .social-icons a:hover {
+        .social-icons a:hover,
+        .social-icons a:focus-visible {
             color: var(--gold);
+            transform: scale(1.2);
         }
 
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero h2 {
                 font-size: 2rem;
             }
-
-            .cta-section h2 {
-                font-size: 1.8rem;
+            header p {
+                font-size: 1rem;
+            }
+            .hero h2 {
+                font-size: 1.9rem;
+            }
+            .cta-section h2, .gallery h2, .how-it-works h2 {
+                font-size: 1.7rem;
             }
 
             .cta-sections,
             .gallery-grid {
                 grid-template-columns: 1fr;
             }
+            .gallery-item img {
+                height: 220px;
+            }
+            .modal-content-wrapper {
+                padding: 2rem 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
+            body { line-height: 1.6; }
             .container {
                 padding: 0 15px;
             }
+            header { padding: 1.5rem 0; }
+            header h1 { font-size: 1.8rem; }
 
-            .hero {
-                padding: 2.5rem 1.5rem;
-            }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h2 { font-size: 1.7rem; }
+            .hero p { font-size: 1rem; }
 
             .cta-button,
-            .modal-content button {
-                padding: 0.7rem 1.2rem;
+            .modal-content-wrapper button[type="submit"] {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
             }
+            .modal-content-wrapper h2 { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -381,168 +466,264 @@
         </div>
     </header>
 
-    <div class="container">
-        <section class="hero" aria-labelledby="hero-title">
-            <h2 id="hero-title">Craft Your Legacy with Bespoke Modular Homes</h2>
-            <p>
-                Modular connects landowners and buyers to create sustainable, luxurious living spaces that blend seamlessly with Ireland’s landscapes.
-            </p>
-        </section>
-
-        <section class="gallery" aria-labelledby="gallery-title">
-            <h2 id="gallery-title">Envision Your Future Home</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://lirp.cdn-website.com/699d2b8a/dms3rep/multi/opt/DALL-E+2025-03-10+15.37.33+-+A+serene+residential+setting+featuring+a+modern+modular+home+in+Alabama.+The+home+has+a+sleek+design+with+clean+lines-+large+windows-+and+a+well-maint-1920x1080-8c5466e5-640w.jpg" alt="Modern Modular Home">
-                    <div class="gallery-caption">
-                        Sleek modernity: Clean lines and large windows for a serene, eco-conscious home.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://prod.rockmedialibrary.com/api/public/content/20bf155f45fa4aa49bd1be1424f25094?v=4ce3ce1a" alt="Contemporary Modular Home">
-                    <div class="gallery-caption">
-                        Contemporary elegance: Bespoke modular design with sustainable craftsmanship.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://www.irishtimes.com/resizer/v2/XWGYNAO2FNJPLOSZA3FD5FZHHI.jpg?auth=db8dae545d8652a9d92cf46fbfa56947bb432c8f6e8ab4d1e9da9da794534edf&smart=true&width=1600&height=900" alt="Irish Modular Home">
-                    <div class="gallery-caption">
-                        Irish charm: Luxurious modular living tailored for Ireland’s landscapes.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="cta-sections">
-            <section class="cta-section" id="landowners" aria-labelledby="landowner-title">
-                <h2 id="landowner-title">Are you Selling Land?</h2>
+    <main>
+        <div class="container">
+            <section class="hero" aria-labelledby="hero-title">
+                <h2 id="hero-title">Craft Your Legacy with Bespoke Modular Homes</h2>
                 <p>
-                    Transform your land into an exclusive modular community, blending sustainability with unparalleled value.
+                    Modular connects landowners and buyers to create sustainable, luxurious living spaces that blend seamlessly with Ireland’s landscapes.
                 </p>
-                <a href="#landowner-form" class="cta-button" data-modal="landowner">Offer Your Land</a>
             </section>
 
-            <section class="cta-section" id="buyers" aria-labelledby="buyer-title">
-                <h2 id="buyer-title">Are you Looking to Buy?</h2>
-                <p>
-                    Discover bespoke modular homes or prime land plots, designed for elegance and eco-conscious living.
-                </p>
-                <a href="#buyer-form" class="cta-button" data-modal="buyer">Find Your Dream Home</a>
+            <section class="gallery" aria-labelledby="gallery-title">
+                <h2 id="gallery-title">Envision Your Future Home</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" tabindex="0"> <!-- Added tabindex for focusability if desired -->
+                        <img src="https://lirp.cdn-website.com/699d2b8a/dms3rep/multi/opt/DALL-E+2025-03-10+15.37.33+-+A+serene+residential+setting+featuring+a+modern+modular+home+in+Alabama.+The+home+has+a+sleek+design+with+clean+lines-+large+windows-+and+a+well-maint-1920x1080-8c5466e5-640w.jpg" alt="Modern Modular Home with sleek design and large windows." loading="lazy">
+                        <div class="gallery-caption">
+                            Sleek modernity: Clean lines and large windows for a serene, eco-conscious home.
+                        </div>
+                    </div>
+                    <div class="gallery-item" tabindex="0">
+                        <img src="https://prod.rockmedialibrary.com/api/public/content/20bf155f45fa4aa49bd1be1424f25094?v=4ce3ce1a" alt="Contemporary Modular Home with bespoke design." loading="lazy">
+                        <div class="gallery-caption">
+                            Contemporary elegance: Bespoke modular design with sustainable craftsmanship.
+                        </div>
+                    </div>
+                    <div class="gallery-item" tabindex="0">
+                        <img src="https://www.irishtimes.com/resizer/v2/XWGYNAO2FNJPLOSZA3FD5FZHHI.jpg?auth=db8dae545d8652a9d92cf46fbfa56947bb432c8f6e8ab4d1e9da9da794534edf&smart=true&width=1600&height=900" alt="Luxurious Irish Modular Home in a natural landscape." loading="lazy">
+                        <div class="gallery-caption">
+                            Irish charm: Luxurious modular living tailored for Ireland’s landscapes.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cta-sections">
+                <section class="cta-section" id="landowners-cta" aria-labelledby="landowner-title">
+                    <h2 id="landowner-title">Are you Selling Land?</h2>
+                    <p>
+                        Transform your land into an exclusive modular community, blending sustainability with unparalleled value.
+                    </p>
+                    <a href="#landowners-cta" class="cta-button" data-modal="landowner">Offer Your Land</a>
+                </section>
+
+                <section class="cta-section" id="buyers-cta" aria-labelledby="buyer-title">
+                    <h2 id="buyer-title">Are you Looking to Buy?</h2>
+                    <p>
+                        Discover bespoke modular homes or prime land plots, designed for elegance and eco-conscious living.
+                    </p>
+                    <a href="#buyers-cta" class="cta-button" data-modal="buyer">Find Your Dream Home</a>
+                </section>
+            </div>
+
+            <section class="how-it-works" aria-labelledby="how-it-works-title">
+                <h2 id="how-it-works-title">Our Process</h2>
+                <ol>
+                    <li>Share Your Vision: Complete our tailored interest form.</li>
+                    <li>Connect Seamlessly: We match you with curated opportunities.</li>
+                    <li>Craft Your Future: Build or buy with our expert guidance.</li>
+                </ol>
             </section>
         </div>
+    </main>
 
-        <section class="how-it-works" aria-labelledby="how-it-works-title">
-            <h2 id="how-it-works-title">Our Process</h2>
-            <ol>
-                <li>Share Your Vision: Complete our tailored interest form.</li>
-                <li>Connect Seamlessly: We match you with curated opportunities.</li>
-                <li>Craft Your Future: Build or buy with our expert guidance.</li>
-            </ol>
-        </section>
-    </div>
-
-    <!-- Modals with Forms -->
-    <div class="modal" id="form-modal">
-        <div class="modal-content">
-            <span class="close-modal" aria-label="Close modal">×</span>
-            <div id="modal-content">
-                <!-- Content will be dynamically updated -->
+    <!-- Modal with Forms -->
+    <div class="modal" id="form-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-element">
+        <div class="modal-content-wrapper">
+            <button class="close-modal" aria-label="Close modal" type="button">×</button>
+            <div id="modal-dynamic-content">
+                <!-- Content will be dynamically updated here -->
             </div>
         </div>
     </div>
 
     <!-- Form Templates -->
-    <template id="landowner-form">
-        <h2>Landowner Interest Form</h2>
+    <template id="landowner-form-template">
+        <h2 id="modal-title-element">Landowner Interest Form</h2>
         <form action="#" method="post">
             <label for="landowner-name">Full Name</label>
             <input type="text" id="landowner-name" name="name" required placeholder="John Doe">
+
             <label for="landowner-email">Email Address</label>
             <input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
+
             <label for="landowner-land-size">Land Size (acres)</label>
             <input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
+
             <label for="landowner-location">Location (County)</label>
             <input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
+
             <label for="landowner-goals">Development Goals</label>
             <textarea id="landowner-goals" name="goals" placeholder="E.g., Create a sustainable modular community"></textarea>
-            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
             <button type="submit">Submit Interest</button>
         </form>
     </template>
 
-    <template id="buyer-form">
-        <h2>Buyer Interest Form</h2>
+    <template id="buyer-form-template">
+        <h2 id="modal-title-element">Buyer Interest Form</h2>
         <form action="#" method="post">
             <label for="buyer-name">Full Name</label>
             <input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
+
             <label for="buyer-email">Email Address</label>
             <input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
+
             <label for="buyer-budget">Budget (€)</label>
             <input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
+
             <label for="buyer-type">Interest Type</label>
             <select id="buyer-type" name="type" required>
                 <option value="">Select...</option>
                 <option value="land">Land Plot Only</option>
                 <option value="home">Modular Home + Land</option>
             </select>
+
             <label for="buyer-preferences">Preferences</label>
             <textarea id="buyer-preferences" name="preferences" placeholder="E.g., Eco-friendly design, 3 bedrooms, solar panels"></textarea>
-            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
             <button type="submit">Submit Interest</button>
         </form>
     </template>
 
     <footer>
-        <p>© 2025 Modular. All Rights Reserved.</p>
-        <div class="social-icons">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Twitter">🐦</a>
-            <a href="#" aria-label="LinkedIn">💼</a>
+        <div class="container">
+            <p>© <span id="current-year">2025</span> Modular. All Rights Reserved.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook" role="img">📘</a>
+                <a href="#" aria-label="Twitter" role="img">🐦</a>
+                <a href="#" aria-label="LinkedIn" role="img">💼</a>
+            </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dynamic Year for Footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Smooth scrolling for anchor links (optional, as CTAs now primarily open modals)
+            // document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            //     if (anchor.getAttribute('href') !== "#" && !anchor.dataset.modal) { // Avoid interfering with modal triggers
+            //         anchor.addEventListener('click', function(e) {
+            //             e.preventDefault();
+            //             const targetId = this.getAttribute('href');
+            //             const targetElement = document.querySelector(targetId);
+            //             if (targetElement) {
+            //                 targetElement.scrollIntoView({
+            //                     behavior: 'smooth'
+            //                 });
+            //             }
+            //         });
+            //     }
+            // });
+
+            // Modal functionality
+            const modal = document.getElementById('form-modal');
+            const modalDynamicContent = document.getElementById('modal-dynamic-content');
+            const ctaButtons = document.querySelectorAll('.cta-button[data-modal]');
+            const closeModalButton = modal.querySelector('.close-modal');
+            let previouslyFocusedElement = null;
+
+            function openModal(type) {
+                previouslyFocusedElement = document.activeElement; // Store focus
+
+                const templateId = `${type}-form-template`;
+                const template = document.getElementById(templateId);
+                if (!template) {
+                    console.error(`Template not found: ${templateId}`);
+                    return;
+                }
+                modalDynamicContent.innerHTML = template.innerHTML;
+                modal.classList.add('is-open');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+                // Focus on the first focusable element in the modal
+                const firstFocusableElement = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (firstFocusableElement) {
+                    firstFocusableElement.focus();
+                }
+
+                // Update aria-labelledby for the modal
+                const modalTitle = modalDynamicContent.querySelector('h2');
+                if (modalTitle && modalTitle.id) {
+                    modal.setAttribute('aria-labelledby', modalTitle.id);
+                }
+            }
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                document.body.style.overflow = '';
+                modalDynamicContent.innerHTML = ''; // Clear content
+
+                if (previouslyFocusedElement) {
+                    previouslyFocusedElement.focus(); // Restore focus
+                }
+            }
+
+            ctaButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default anchor behavior
+                    const type = button.getAttribute('data-modal');
+                    openModal(type);
                 });
             });
-        });
 
-        // Modal functionality
-        const modal = document.getElementById('form-modal');
-        const modalContent = document.getElementById('modal-content');
-        const ctaButtons = document.querySelectorAll('.cta-button[data-modal]');
-        const closeModal = document.querySelector('.close-modal');
+            closeModalButton.addEventListener('click', closeModal);
 
-        ctaButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const type = button.getAttribute('data-modal');
-                const template = document.getElementById(`${type}-form`);
-                modalContent.innerHTML = template.innerHTML;
-                modal.style.display = 'flex';
+            // Close modal on clicking the overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
             });
-        });
 
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                    closeModal();
+                }
+            });
 
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
+            // Focus trapping (basic implementation)
+            modal.addEventListener('keydown', (e) => {
+                if (e.key !== 'Tab' || !modal.classList.contains('is-open')) {
+                    return;
+                }
 
-        // Form submission (placeholder for Google Sheets integration)
-        modalContent.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Form submitted! In a production environment, this data would be sent to a Google Sheet.');
-            modal.style.display = 'none';
+                const focusableElements = Array.from(
+                    modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+                ).filter(el => el.offsetParent !== null); // Only visible, focusable elements
+
+                if (focusableElements.length === 0) return;
+
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey) { // Shift + Tab
+                    if (document.activeElement === firstElement) {
+                        lastElement.focus();
+                        e.preventDefault();
+                    }
+                } else { // Tab
+                    if (document.activeElement === lastElement) {
+                        firstElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            // Form submission (placeholder)
+            modalDynamicContent.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // In a real application, you'd collect form data:
+                // const formData = new FormData(e.target);
+                // const data = Object.fromEntries(formData.entries());
+                // console.log('Form data:', data);
+
+                alert('Form submitted! In a production environment, this data would be sent to a server or service.');
+                closeModal();
+                e.target.reset(); // Reset the form fields
+            });
         });
     </script>
 </body>
