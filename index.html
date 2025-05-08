@@ -89,21 +89,52 @@
         .social-icons a:hover, .social-icons a:focus-visible { background: var(--highlight); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transform: scale(1.2); }
         
         /* Map specific styles */
-        #map-container { padding: 2.5rem 0; text-align: center; }
-        #map-container h2 { font-size: 2.1rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.75rem; }
-        #map { height: 500px; width: 100%; border-radius: var(--border-radius-lg); box-shadow: var(--shadow); margin: 0 auto; max-width: 1000px; }
+        #map-container {
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+        #map-container h2 {
+            font-size: 2.1rem;
+            background: var(--primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.75rem;
+        }
+        #map {
+            height: 500px; 
+            width: 100%;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            margin: 0 auto; 
+            max-width: 1000px; 
+        }
         /* Leaflet popup styling */
-        .leaflet-popup-content-wrapper { background: var(--modal-bg); color: var(--text); border-radius: var(--border-radius-md); box-shadow: var(--shadow); }
-        .leaflet-popup-content { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; font-size: 0.9rem; }
-        .leaflet-popup-content strong { color: #2E4A3D; font-size: 1rem; }
-        .leaflet-popup-tip { background: var(--modal-bg); }
-        .leaflet-container a.leaflet-popup-close-button { color: var(--text-light); font-size: 1.5rem; padding: 4px 4px 0 0; }
-        .leaflet-container a.leaflet-popup-close-button:hover { color: #2E4A3D; }
-
-        /* Form map specific styles */
-        .form-map-container { height: 220px; width: 100%; margin-bottom: 0.5rem; border-radius: var(--border-radius-md); background-color: #e9e9e9; border: 1px solid var(--border-light); }
-        .form-map-instruction { display: block; margin-top: -0.8rem; margin-bottom: 1rem; font-size: 0.8rem; color: var(--text-light); }
-
+        .leaflet-popup-content-wrapper {
+            background: var(--modal-bg);
+            color: var(--text);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow);
+        }
+        .leaflet-popup-content {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            font-size: 0.9rem; /* Adjust popup font size if needed */
+        }
+        .leaflet-popup-content strong {
+            color: #2E4A3D;
+            font-size: 1rem; /* Adjust heading font size in popup */
+        }
+        .leaflet-popup-tip {
+            background: var(--modal-bg); /* Match the popup background */
+        }
+        .leaflet-container a.leaflet-popup-close-button { /* Style close button */
+            color: var(--text-light);
+            font-size: 1.5rem; /* Adjust close button size */
+            padding: 4px 4px 0 0;
+        }
+        .leaflet-container a.leaflet-popup-close-button:hover {
+            color: #2E4A3D;
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) { header h1 { font-size: 2rem; } header p { font-size: 1rem; } .hero h2 { font-size: 1.9rem; } .cta-section h2, .gallery h2, .how-it-works h2, #map-container h2 { font-size: 1.7rem; } .cta-sections, .gallery-grid { grid-template-columns: 1fr; } .gallery-item img { height: 220px; } .modal-content-wrapper { padding: 2rem 1.5rem; } }
@@ -171,18 +202,13 @@
         <h2 id="modal-title-element">Landowner Interest Form</h2>
         <form>
             <input type="hidden" name="formType" value="landowner">
+            <input type="hidden" name="latitude" id="landowner-latitude">
+            <input type="hidden" name="longitude" id="landowner-longitude">
             <label for="landowner-name">Full Name</label><input type="text" id="landowner-name" name="name" required placeholder="John Doe">
             <label for="landowner-email">Email Address</label><input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
             <label for="landowner-land-size">Land Size (acres)</label><input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
             <label for="landowner-location">Location (County)</label><input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
             <label for="landowner-location-detail">Specific Location Description</label><input type="text" id="landowner-location-detail" name="location_detail" placeholder="E.g., Near town center, specific address if comfortable">
-            
-            <label for="form-map-interactive-landowner" style="margin-top: 0.5rem; display: block;">Pinpoint Location on Map (Optional):</label>
-            <div id="form-map-interactive-landowner" class="form-map-container"></div>
-            <small class="form-map-instruction">Click map to set/adjust pin. Your browser location may be used as a starting point if available.</small>
-            <input type="hidden" name="latitude" id="landowner-latitude">
-            <input type="hidden" name="longitude" id="landowner-longitude">
-
             <label for="landowner-goals">Development Goals</label><textarea id="landowner-goals" name="goals" placeholder="E.g., Create a sustainable modular community"></textarea>
             <button type="submit">Submit Interest</button>
         </form>
@@ -192,19 +218,14 @@
         <h2 id="modal-title-element">Buyer Interest Form</h2>
         <form>
             <input type="hidden" name="formType" value="buyer">
+            <input type="hidden" name="latitude" id="buyer-latitude">
+            <input type="hidden" name="longitude" id="buyer-longitude">
             <label for="buyer-name">Full Name</label><input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
             <label for="buyer-email">Email Address</label><input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
             <label for="buyer-budget">Budget (€)</label><input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
             <label for="buyer-type">Interest Type</label><select id="buyer-type" name="type" required><option value="">Select...</option><option value="land">Land Plot Only</option><option value="home">Modular Home + Land</option></select>
             <label for="buyer-location">Target Location/County</label><input type="text" id="buyer-location" name="location" placeholder="Co. Cork">
             <label for="buyer-location-detail">Specific Preferred Location Description</label><input type="text" id="buyer-location-detail" name="location_detail" placeholder="E.g., Rural setting, close to amenities">
-            
-            <label for="form-map-interactive-buyer" style="margin-top: 0.5rem; display: block;">Pinpoint Preferred Area on Map (Optional):</label>
-            <div id="form-map-interactive-buyer" class="form-map-container"></div>
-            <small class="form-map-instruction">Click map to set/adjust pin. Your browser location may be used as a starting point if available.</small>
-            <input type="hidden" name="latitude" id="buyer-latitude">
-            <input type="hidden" name="longitude" id="buyer-longitude">
-
             <label for="buyer-preferences">Preferences</label><textarea id="buyer-preferences" name="preferences" placeholder="E.g., Eco-friendly design, 3 bedrooms, solar panels"></textarea>
             <button type="submit">Submit Interest</button>
         </form>
@@ -228,54 +249,73 @@
 
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAPydlzxbGEuOTWfzbHDWNT71S8m3fuLGN7OfDcYvFqvhS5QCsPyVFUnC9_YPCD59GBg/exec';
-        const irelandCenter = [53.4129, -8.2439];
 
-        // Global map variable for Leaflet (MAIN PAGE MAP)
+        // Global map variable for Leaflet
         let map;
-        let activeMarkers = []; // To keep track of current markers for easy removal on main map
+        let activeMarkers = []; // To keep track of current markers for easy removal
 
-        // Variables for the modal form map
-        let formMapInstance = null; 
-        let formMapMarker = null;   
-
-        // Function to initialize the Leaflet map (MAIN PAGE MAP)
+        // Function to initialize the Leaflet map
         async function initializeLeafletMap() {
+            const irelandCenter = [53.4129, -8.2439]; 
+            
             if (!document.getElementById('map')) {
-                console.error("Main map container 'map' not found.");
+                console.error("Map container 'map' not found.");
                 return;
             }
-            if (!map) { 
+            
+            // Initialize map only if it hasn't been already
+            if (!map) {
                 map = L.map('map').setView(irelandCenter, 7);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 18,
                 }).addTo(map);
             }
+
+            // Clear existing markers
             activeMarkers.forEach(marker => map.removeLayer(marker));
             activeMarkers = [];
+
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL); 
                 const result = await response.json();
+
                 if (result.status === "success" && result.data) {
+                    console.log("Map data received:", result.data);
                     plotLeafletMarkers(result.data);
                 } else {
-                    console.error("Error fetching main map data from script:", result.message || "Unknown error");
+                    console.error("Error fetching map data from script:", result.message || "Unknown error");
                     document.getElementById('map').innerHTML = '<p style="text-align:center; padding-top:50px;">Could not load map data.</p>';
                 }
             } catch (error) {
-                console.error('Error fetching or processing main map data:', error);
+                console.error('Error fetching or processing map data:', error);
                 document.getElementById('map').innerHTML = '<p style="text-align:center; padding-top:50px;">Error loading map data. Check console.</p>';
             }
         }
 
         function plotLeafletMarkers(locations) {
-            if (!map) { console.error("Main Leaflet map not initialized yet."); return; }
-            if (!locations || locations.length === 0) { console.log("No locations to plot on main map."); return; }
-            const landownerIcon = L.icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -28] });
-            const buyerIcon = L.icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -28] });
+            if (!map) {
+                console.error("Leaflet map not initialized yet.");
+                return;
+            }
+            if (!locations || locations.length === 0) {
+                console.log("No locations to plot.");
+                return;
+            }
+
+            const landownerIcon = L.icon({
+                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -28]
+            });
+            const buyerIcon = L.icon({
+                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -28]
+            });
+
             locations.forEach(location => {
                 if (typeof location.latitude !== 'number' || typeof location.longitude !== 'number' || isNaN(location.latitude) || isNaN(location.longitude)) {
-                    console.warn("Skipping invalid location data for main map:", location); return;
+                    console.warn("Skipping invalid location data:", location);
+                    return;
                 }
                 const marker = L.marker([location.latitude, location.longitude], {
                     title: `${location.type}: ${location.name}`,
@@ -283,12 +323,16 @@
                 }).addTo(map);
                 const popupContent = `<strong>${location.type}: ${location.name}</strong><br>${location.details || ''}<p><small>Lat: ${location.latitude.toFixed(4)}, Lng: ${location.longitude.toFixed(4)}</small></p>`;
                 marker.bindPopup(popupContent);
-                activeMarkers.push(marker);
+                activeMarkers.push(marker); // Add to active markers list
             });
+
             if (activeMarkers.length > 0) {
                 const group = new L.featureGroup(activeMarkers);
-                if (group.getBounds().isValid()) { map.fitBounds(group.getBounds().pad(0.1)); }
-                else if (activeMarkers.length === 1) { map.setView(activeMarkers[0].getLatLng(), 10); }
+                if (group.getBounds().isValid()) {
+                    map.fitBounds(group.getBounds().pad(0.1)); 
+                } else if (activeMarkers.length === 1) {
+                    map.setView(activeMarkers[0].getLatLng(), 10); 
+                }
             }
         }
 
@@ -296,7 +340,7 @@
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
             if (typeof L !== 'undefined') {
-                 initializeLeafletMap(); // Initialize main page map
+                 initializeLeafletMap();
             } else {
                 console.error("Leaflet library not loaded.");
                 const mapDiv = document.getElementById('map');
@@ -309,78 +353,19 @@
             const closeModalButton = modal.querySelector('.close-modal');
             let previouslyFocusedElement = null;
 
-            function updateFormLocationFields(form, lat, lng) {
-                const latInput = form.querySelector('input[name="latitude"]');
-                const lonInput = form.querySelector('input[name="longitude"]');
-                if (latInput) latInput.value = lat;
-                if (lonInput) lonInput.value = lng;
-            }
-
-            function initializeFormMapAndGeolocation(formElement) {
-                const formTypeInput = formElement.querySelector('input[name="formType"]');
-                if (!formTypeInput) {
-                    console.error("Form type input not found in form.");
-                    updateFormLocationFields(formElement, '', '');
-                    return;
-                }
-                const mapDivId = formTypeInput.value === 'landowner' ? 'form-map-interactive-landowner' : 'form-map-interactive-buyer';
-                const formMapDiv = formElement.querySelector(`#${mapDivId}`);
-                
-                if (!formMapDiv) {
-                    console.error("Form map div not found:", mapDivId);
-                    updateFormLocationFields(formElement, '', '');
-                    return;
-                }
-
-                if (formMapInstance) { // Clean up previous instance if any (should be handled by closeModal mostly)
-                    try { formMapInstance.remove(); } catch(e) { console.warn("Error removing old formMapInstance", e); }
-                    formMapInstance = null; formMapMarker = null;
-                }
-
-                formMapInstance = L.map(formMapDiv, { scrollWheelZoom: false }).setView(irelandCenter, 6);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OSM', maxZoom: 18,
-                }).addTo(formMapInstance);
-
-                function placeMarkerAndUpdate(latlng, zoomLevel = 13, setMapView = true) {
-                    if (formMapMarker) {
-                        try { formMapInstance.removeLayer(formMapMarker); } catch(e) { /* Marker might already be removed */ }
-                    }
-                    formMapMarker = L.marker(latlng, { draggable: true }).addTo(formMapInstance);
-                    if (setMapView) {
-                        formMapInstance.setView(latlng, zoomLevel);
-                    }
-                    updateFormLocationFields(formElement, latlng.lat.toFixed(6), latlng.lng.toFixed(6));
-
-                    formMapMarker.on('dragend', function(event) {
-                        const newLatLng = event.target.getLatLng();
-                        updateFormLocationFields(formElement, newLatLng.lat.toFixed(6), newLatLng.lng.toFixed(6));
-                    });
-                }
-                
-                updateFormLocationFields(formElement, '', ''); // Initialize fields as empty
-
+            function requestAndSetLocation(formElement) {
+                if (!formElement) return;
+                const latInput = formElement.querySelector('input[name="latitude"]');
+                const lonInput = formElement.querySelector('input[name="longitude"]');
+                if (!latInput || !lonInput) { console.warn('Latitude/Longitude hidden fields not found.'); return; }
+                latInput.value = ''; lonInput.value = '';
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            placeMarkerAndUpdate(L.latLng(position.coords.latitude, position.coords.longitude));
-                        },
-                        (error) => {
-                            console.warn(`Geolocation error for form: ${error.message}. User may need to click map.`);
-                        },
-                        { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
+                        (position) => { latInput.value = position.coords.latitude; lonInput.value = position.coords.longitude; console.log('Location captured:', position.coords.latitude, position.coords.longitude); },
+                        (error) => { console.warn(`Geolocation error: ${error.message}.`); },
+                        { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
                     );
-                } else {
-                    console.warn('Geolocation is not supported for form map.');
-                }
-
-                formMapInstance.on('click', function(e) {
-                    placeMarkerAndUpdate(e.latlng, formMapInstance.getZoom(), false); // Place marker, don't change view zoom/center
-                });
-                
-                setTimeout(() => { // Ensure map renders correctly after modal transition
-                    if (formMapInstance) formMapInstance.invalidateSize();
-                }, 350);
+                } else { console.warn('Geolocation is not supported.'); }
             }
 
             function openModal(type) {
@@ -388,60 +373,35 @@
                 const templateId = `${type}-form-template`;
                 const template = document.getElementById(templateId);
                 if (!template) { console.error(`Template not found: ${templateId}`); return; }
-                
                 modalDynamicContent.innerHTML = template.innerHTML;
                 const currentForm = modalDynamicContent.querySelector('form');
-                
-                modal.classList.add('is-open'); 
-                document.body.style.overflow = 'hidden';
-
-                if (currentForm) {
-                    initializeFormMapAndGeolocation(currentForm);
-                }
-
+                if (currentForm) { requestAndSetLocation(currentForm); }
+                modal.classList.add('is-open'); document.body.style.overflow = 'hidden';
                 const firstFocusableElement = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
                 if (firstFocusableElement) firstFocusableElement.focus();
-                
                 const modalTitle = modalDynamicContent.querySelector('h2');
                 if (modalTitle && modalTitle.id) modal.setAttribute('aria-labelledby', modalTitle.id);
             }
 
             function closeModal() {
-                modal.classList.remove('is-open'); 
-                document.body.style.overflow = '';
-                
-                if (formMapInstance) {
-                    try { formMapInstance.remove(); } catch(e) { console.warn("Error removing formMapInstance on close", e); }
-                    formMapInstance = null; formMapMarker = null;
-                }
+                modal.classList.remove('is-open'); document.body.style.overflow = '';
                 modalDynamicContent.innerHTML = ''; 
-                
                 if (previouslyFocusedElement) previouslyFocusedElement.focus();
             }
 
             ctaButtons.forEach(button => {
-                button.addEventListener('click', (e) => { 
-                    e.preventDefault(); 
-                    const type = button.getAttribute('data-modal'); 
-                    openModal(type); 
-                });
+                button.addEventListener('click', (e) => { e.preventDefault(); const type = button.getAttribute('data-modal'); openModal(type); });
             });
-
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
-            
-            modal.addEventListener('keydown', (e) => { // Trap focus
+            modal.addEventListener('keydown', (e) => {
                 if (e.key !== 'Tab' || !modal.classList.contains('is-open')) return;
-                const focusableElements = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => el.offsetParent !== null && !el.disabled);
+                const focusableElements = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => el.offsetParent !== null);
                 if (focusableElements.length === 0) return;
-                const firstElement = focusableElements[0]; 
-                const lastElement = focusableElements[focusableElements.length - 1];
-                if (e.shiftKey) { 
-                    if (document.activeElement === firstElement) { lastElement.focus(); e.preventDefault(); } 
-                } else { 
-                    if (document.activeElement === lastElement) { firstElement.focus(); e.preventDefault(); } 
-                }
+                const firstElement = focusableElements[0]; const lastElement = focusableElements[focusableElements.length - 1];
+                if (e.shiftKey) { if (document.activeElement === firstElement) { lastElement.focus(); e.preventDefault(); } }
+                else { if (document.activeElement === lastElement) { firstElement.focus(); e.preventDefault(); } }
             });
 
             modalDynamicContent.addEventListener('submit', async (e) => {
@@ -450,9 +410,8 @@
                 const submitButton = form.querySelector('button[type="submit"]');
                 const originalButtonText = submitButton.textContent;
                 submitButton.disabled = true; submitButton.textContent = 'Submitting...';
-                
                 const formData = new FormData(form);
-                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) { // Basic check for placeholder URL
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_')) {
                     console.error("Google Script URL is not set correctly.");
                     alert("Configuration error: Submission URL is not set.");
                     submitButton.disabled = false; submitButton.textContent = originalButtonText; return;
@@ -460,11 +419,12 @@
                 try {
                     const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
                     const result = await response.json(); 
+                    console.log("Response from script:", result);
                     if (result.status === "success") {
                         alert('Success! Your information has been submitted. ' + (result.message || ''));
                         form.reset(); closeModal();
-                        if (typeof L !== 'undefined' && map) { // Check if main map exists
-                            initializeLeafletMap(); // Refresh main map data
+                        if (typeof L !== 'undefined') {
+                            initializeLeafletMap(); // Refresh map data
                         }
                     } else {
                         console.error('Submission error from script:', result.message || 'Unknown error from script.');
@@ -472,7 +432,7 @@
                     }
                 } catch (error) {
                     console.error('Network or fetch error:', error);
-                    alert('An error occurred while submitting. Details: ' + error.message);
+                    alert('An error occurred. Details: ' + error.message);
                 } finally {
                     submitButton.disabled = false; submitButton.textContent = originalButtonText;
                 }
@@ -481,3 +441,4 @@
     </script>
 </body>
 </html>
+
