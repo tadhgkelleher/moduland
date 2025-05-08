@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ModuLand Connect - Connecting landowners, builders, and buyers for modular housing opportunities.">
-    <title>ModuLand Connect - Modular Housing Opportunities</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Modular - Premium modular housing solutions for landowners, builders, and buyers in Ireland.">
+    <title>Modular - Luxury Modular Housing</title>
     <style>
+        /* Minimal CSS Reset */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* CSS Variables */
         :root {
             --primary: #2c3e50;
             --accent: #e74c3c;
             --accent-dark: #c0392b;
+            --gold: #d4a017;
             --light-bg: #f7f9fc;
             --white: #ffffff;
             --text: #333333;
@@ -19,14 +26,9 @@
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* General Styling */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.7;
             background-color: var(--light-bg);
             color: var(--text);
@@ -87,6 +89,59 @@
             margin: 0 auto;
         }
 
+        /* Gallery Section */
+        .gallery {
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .gallery h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 1rem;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform var(--transition);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
         /* CTA Sections */
         .cta-sections {
             display: grid;
@@ -122,7 +177,7 @@
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            background: linear-gradient(135deg, var(--accent), var(--gold));
             color: var(--white);
             padding: 0.8rem 1.5rem;
             text-decoration: none;
@@ -133,7 +188,7 @@
         }
 
         .cta-button:hover {
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            background: linear-gradient(135deg, var(--gold), var(--accent));
             transform: scale(1.05);
         }
 
@@ -163,6 +218,88 @@
             margin: 0.5rem 0;
         }
 
+        /* Forms */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-content label {
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .modal-content input,
+        .modal-content select,
+        .modal-content textarea {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .modal-content textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-content button {
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            color: var(--white);
+            padding: 0.8rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-content button:hover {
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
         /* Footer */
         footer {
             background: var(--primary);
@@ -184,54 +321,12 @@
             color: var(--white);
             font-size: 1.5rem;
             margin: 0 0.5rem;
+            text-decoration: none;
             transition: var(--transition);
         }
 
         .social-icons a:hover {
-            color: var(--accent);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 500px;
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-content h2 {
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-
-        .modal-content p {
-            font-size: 1rem;
-            color: #666;
-            margin: 1rem 0;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text);
+            color: var(--gold);
         }
 
         /* Animations */
@@ -254,7 +349,8 @@
                 font-size: 1.5rem;
             }
 
-            .cta-sections {
+            .cta-sections,
+            .gallery-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -268,7 +364,8 @@
                 padding: 2rem;
             }
 
-            .cta-button {
+            .cta-button,
+            .modal-content button {
                 padding: 0.6rem 1rem;
             }
         }
@@ -278,80 +375,160 @@
     <header>
         <div class="container">
             <h1>ModuLand Connect</h1>
-            <p>Your Partner in Modular Housing Development</p>
+            <p>Premium Modular Housing Solutions for Ireland</p>
         </div>
     </header>
 
     <div class="container">
         <section class="hero" aria-labelledby="hero-title">
-            <h2 id="hero-title">Unlock Your Land's Potential with Modular Housing</h2>
+            <h2 id="hero-title">Craft Your Legacy with Luxury Modular Homes</h2>
             <p>
-                Connecting landowners, builders, and buyers to facilitate the development of
-                innovative and affordable modular housing communities.
+                Connecting discerning landowners, builders, and buyers to create bespoke, sustainable modular housing communities that redefine modern living in Ireland.
             </p>
+        </section>
+
+        <section class="gallery" aria-labelledby="gallery-title">
+            <h2 id="gallery-title">Inspiration for Your Dream Home</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <!-- Placeholder for Cuileann House image -->
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==" alt="Cuileann House Modular Home">
+                    <div class="gallery-caption">
+                        Cuileann House: A concrete modular masterpiece with sleek, modern lines and energy-efficient design.
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <!-- Placeholder for MyLittleHome image -->
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==" alt="Scandinavian Modular Home">
+                    <div class="gallery-caption">
+                        Scandinavian elegance: Timber-clad, customizable homes with superior insulation for Ireland’s climate.
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <!-- Placeholder for Mobile Home image -->
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0g==" alt="Luxury Mobile Modular">
+                    <div class="gallery-caption">
+                        Mobile luxury: Turnkey modular homes with smart home features, ready in weeks.
+                    </div>
+                </div>
+            </div>
         </section>
 
         <div class="cta-sections">
             <section class="cta-section" id="landowners" aria-labelledby="landowner-title">
                 <h2 id="landowner-title">Are you a Landowner?</h2>
                 <p>
-                    Interested in subdividing and selling portions of your land for
-                    modern modular housing projects? Turn your underutilized land into
-                    an opportunity.
+                    Transform your estate into a premium modular housing community. Partner with us to maximize value and sustainability.
                 </p>
-                <a href="#landowner-form" class="cta-button" data-modal="landowner">Yes, I Have Land to Offer</a>
+                <a href="#landowner-form" class="cta-button" data-modal="landowner">Offer Your Land</a>
             </section>
 
             <section class="cta-section" id="builders" aria-labelledby="builder-title">
-                <h2 id="builder-title">Are you a Modular Home Builder/Developer?</h2>
+                <h2 id="builder-title">Are you a Modular Home Builder?</h2>
                 <p>
-                    Looking for suitable subdivided land parcels to build your next
-                    modular housing project? Find landowners ready to collaborate.
+                    Source prime land for your next luxury modular project. Collaborate with landowners to create bespoke communities.
                 </p>
-                <a href="#builder-form" class="cta-button" data-modal="builder">Yes, I Want to Build</a>
+                <a href="#builder-form" class="cta-button" data-modal="builder">Build with Us</a>
             </section>
 
             <section class="cta-section" id="buyers" aria-labelledby="buyer-title">
-                <h2 id="buyer-title">Are you Looking to Buy?</h2>
+                <h2 id="buyer-title">Are you Seeking a Luxury Home?</h2>
                 <p>
-                    Interested in purchasing a subdivided plot of land for your own modular home,
-                    or a complete modular home and land package?
+                    Discover exclusive modular homes or land plots tailored to your vision, with cutting-edge design and sustainability.
                 </p>
-                <a href="#buyer-form" class="cta-button" data-modal="buyer">Yes, I Want to Buy Land/Home</a>
+                <a href="#buyer-form" class="cta-button" data-modal="buyer">Find Your Dream Home</a>
             </section>
         </div>
 
         <section class="how-it-works" aria-labelledby="how-it-works-title">
             <h2 id="how-it-works-title">How It Works</h2>
             <ol>
-                <li>Express Your Interest: Fill out a simple form.</li>
-                <li>Get Connected: We help match you with relevant parties.</li>
-                <li>Build/Buy Your Future: Facilitate your modular housing goals.</li>
+                <li>Express Your Interest: Submit your details via our tailored forms.</li>
+                <li>Get Matched: Our team connects you with premium opportunities.</li>
+                <li>Build Your Legacy: Realize your vision with our expert support.</li>
             </ol>
         </section>
     </div>
 
-    <footer>
-        <p>© 2025 ModuLand Connect. All Rights Reserved.</p>
-        <div class="social-icons">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </footer>
-
-    <!-- Modal -->
+    <!-- Modals with Forms -->
     <div class="modal" id="form-modal">
         <div class="modal-content">
-            <span class="close-modal" aria-label="Close modal">&times;</span>
-            <h2 id="modal-title">Interest Form</h2>
-            <p id="modal-text">This is a placeholder for the form. In a real application, a form would appear here.</p>
-            <a href="#" class="cta-button">Close</a>
+            <span class="close-modal" aria-label="Close modal">×</span>
+            <div id="modal-content">
+                <!-- Content will be dynamically updated -->
+            </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <!-- Form Templates -->
+    <template id="landowner-form">
+        <h2>Landowner Interest Form</h2>
+        <form action="#" method="post">
+            <label for="landowner-name">Full Name</label>
+            <input type="text" id="landowner-name" name="name" required placeholder="John Doe">
+            <label for="landowner-email">Email Address</label>
+            <input type="email" id="landowner-email" name="email" required placeholder="john@example.com">
+            <label for="landowner-land-size">Land Size (acres)</label>
+            <input type="number" id="landowner-land-size" name="land_size" min="0" step="0.1" placeholder="5.0">
+            <label for="landowner-location">Location (County)</label>
+            <input type="text" id="landowner-location" name="location" placeholder="Co. Meath">
+            <label for="landowner-goals">Development Goals</label>
+            <textarea id="landowner-goals" name="goals" placeholder="E.g., Subdivide for luxury modular homes, maximize sustainability"></textarea>
+            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
+            <button type="submit">Submit Interest</button>
+        </form>
+    </template>
+
+    <template id="builder-form">
+        <h2>Builder Interest Form</h2>
+        <form action="#" method="post">
+            <label for="builder-name">Company Name</label>
+            <input type="text" id="builder-name" name="name" required placeholder="Elite Modular Builders">
+            <label for="builder-email">Email Address</label>
+            <input type="email" id="builder-email" name="email" required placeholder="contact@builder.com">
+            <label for="builder-experience">Years of Experience</label>
+            <input type="number" id="builder-experience" name="experience" min="0" placeholder="10">
+            <label for="builder-budget">Project Budget (€)</label>
+            <input type="number" id="builder-budget" name="budget" min="0" placeholder="500000">
+            <label for="builder-specialization">Specialization</label>
+            <textarea id="builder-specialization" name="specialization" placeholder="E.g., Bespoke modular homes, Passive House standards"></textarea>
+            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
+            <button type="submit">Submit Interest</button>
+        </form>
+    </template>
+
+    <template id="buyer-form">
+        <h2>Buyer Interest Form</h2>
+        <form action="#" method="post">
+            <label for="buyer-name">Full Name</label>
+            <input type="text" id="buyer-name" name="name" required placeholder="Jane Smith">
+            <label for="buyer-email">Email Address</label>
+            <input type="email" id="buyer-email" name="email" required placeholder="jane@example.com">
+            <label for="buyer-budget">Budget (€)</label>
+            <input type="number" id="buyer-budget" name="budget" min="0" placeholder="400000">
+            <label for="buyer-type">Interest Type</label>
+            <select id="buyer-type" name="type" required>
+                <option value="">Select...</option>
+                <option value="land">Land Plot Only</option>
+                <option value="home">Modular Home + Land</option>
+            </select>
+            <label for="buyer-preferences">Preferences</label>
+            <textarea id="buyer-preferences" name="preferences" placeholder="E.g., Scandinavian design, solar panels, 3 bedrooms"></textarea>
+            <!-- Note: In production, this form can submit to Google Sheets via Google Forms or Apps Script -->
+            <button type="submit">Submit Interest</button>
+        </form>
+    </template>
+
+    <footer>
+        <p>© 2025 ModuLand Connect. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
     <script>
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -365,17 +542,15 @@
 
         // Modal functionality
         const modal = document.getElementById('form-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalText = document.getElementById('modal-text');
+        const modalContent = document.getElementById('modal-content');
         const ctaButtons = document.querySelectorAll('.cta-button[data-modal]');
         const closeModal = document.querySelector('.close-modal');
-        const closeButton = document.querySelector('.modal-content .cta-button');
 
         ctaButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const type = button.getAttribute('data-modal');
-                modalTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Interest Form`;
-                modalText.textContent = `This is a placeholder for the ${type} form. In a real application, a form would appear here.`;
+                const template = document.getElementById(`${type}-form`);
+                modalContent.innerHTML = template.innerHTML;
                 modal.style.display = 'flex';
             });
         });
@@ -384,15 +559,17 @@
             modal.style.display = 'none';
         });
 
-        closeButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.style.display = 'none';
-        });
-
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
+        });
+
+        // Form submission (placeholder for Google Sheets integration)
+        modalContent.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Form submitted! In a production environment, this data would be sent to a Google Sheet.');
+            modal.style.display = 'none';
         });
     </script>
 </body>
